@@ -1,0 +1,82 @@
+/* ---------- Section layouts used across pages ---------- */
+#du-app .du-pain-grid,#du-app .du-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#du-app .du-pain-card,#du-app .du-path-card{padding:26px}
+#du-app .du-path-card{background:linear-gradient(180deg,#fff,#FFF8F1)}
+#du-app .du-pain-card h3,#du-app .du-path-card h3{margin:18px 0 10px}
+#du-app .du-path-card p,#du-app .du-pain-card p{margin:0}
+#du-app .du-pain-number{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;color:#fff;font-size:13px;font-weight:900;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary))}
+#du-app .du-why-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+#du-app .du-why-card{padding:23px;border:1px solid rgba(255,255,255,.1);border-radius:20px;background:rgba(255,255,255,.055)}
+#du-app .du-why-card h3{margin:16px 0 8px}
+#du-app .du-why-card p{margin:0}
+#du-app .du-why-card .du-icon{color:#fff;background:linear-gradient(135deg,rgba(255,89,4,.9),rgba(255,154,1,.9));box-shadow:none}
+
+/* AI solutions block */
+#du-app .du-ai-section{background:radial-gradient(circle at 0 100%,rgba(255,89,4,.18),transparent 35%),var(--du-dark)}
+#du-app .du-ai-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:48px;align-items:center}
+#du-app .du-ai-section .du-chip{color:#E7E9EE;border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.06)}
+#du-app .du-ai-section .du-service-card{border-color:rgba(255,255,255,.08)}
+
+/* Split and about blocks */
+#du-app .du-split{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:52px;align-items:center}
+#du-app .du-mv-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#du-app .du-mv-card{padding:28px}
+#du-app .du-mv-card h3{margin:16px 0 8px}
+#du-app .du-mv-card p{margin:0}
+#du-app .du-diff-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#du-app .du-diff{display:flex;gap:14px;padding:20px;border:1px solid var(--du-line);border-radius:18px;background:#FFFCF9}
+#du-app .du-diff>svg{flex:0 0 auto;width:26px;height:26px;padding:5px;border-radius:50%;color:#fff;background:var(--du-success)}
+#du-app .du-diff strong{display:block;margin-bottom:4px;color:var(--du-ink)}
+#du-app .du-diff p{margin:0;font-size:14.5px}
+
+/* Services comparison table */
+#du-app .du-table-wrap{overflow-x:auto;border:1px solid var(--du-line);border-radius:20px;background:#fff;box-shadow:var(--du-shadow-sm)}
+#du-app .du-table{width:100%;min-width:620px;border-collapse:collapse;font-size:15px}
+#du-app .du-table th,#du-app .du-table td{padding:15px 18px;border:0;border-bottom:1px solid var(--du-line);text-align:left;vertical-align:middle}
+#du-app .du-table th{color:var(--du-ink);background:#FFF6EE;font-size:13px;font-weight:850;letter-spacing:.05em;text-transform:uppercase}
+#du-app .du-table tr:last-child td{border-bottom:0}
+#du-app .du-table td:first-child{color:var(--du-ink);font-weight:700}
+#du-app .du-table td{color:var(--du-text)}
+#du-app .du-table-link{padding:0;border:0;background:none;color:var(--du-primary-dark);font-weight:850;text-decoration:underline;text-underline-offset:3px}
+
+/* Industries page cards */
+#du-app .du-ind-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#du-app .du-ind-card{display:flex;flex-direction:column;padding:26px}
+#du-app .du-ind-card h3{margin:16px 0 8px}
+#du-app .du-ind-card p{margin:0}
+#du-app .du-ind-sub{display:block;margin:18px 0 9px;color:var(--du-muted);font-size:12px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+#du-app .du-ind-tags{display:flex;flex-wrap:wrap;gap:7px}
+#du-app button.du-chip{margin:0;cursor:pointer;transition:.2s ease}
+#du-app button.du-chip:hover{color:var(--du-primary-dark);border-color:#F1B58E;background:#FFF6EF}
+#du-app .du-ind-card .du-link{margin-top:auto;padding-top:18px}
+
+/* Audit page cards */
+#du-app .du-audit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#du-app .du-audit-card{padding:26px}
+#du-app .du-audit-card h3{margin:16px 0 0}
+
+@media (max-width:1100px){
+  #du-app .du-why-grid{grid-template-columns:1fr 1fr}
+  #du-app .du-ai-grid,#du-app .du-split{grid-template-columns:1fr;gap:32px}
+  #du-app .du-diff-grid,#du-app .du-ind-grid,#du-app .du-audit-grid,#du-app .du-mv-grid,#du-app .du-pain-grid,#du-app .du-path-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  #du-app .du-pain-grid,#du-app .du-path-grid,#du-app .du-mv-grid,#du-app .du-diff-grid,#du-app .du-ind-grid{grid-template-columns:1fr;gap:12px}
+  #du-app .du-pain-card,#du-app .du-path-card,#du-app .du-mv-card,#du-app .du-ind-card{padding:20px}
+  #du-app .du-why-grid{grid-template-columns:1fr 1fr;gap:10px}
+  #du-app .du-why-card{padding:16px}
+  #du-app .du-why-card .du-icon{width:40px;height:40px;border-radius:12px}
+  #du-app .du-why-card .du-icon svg{width:20px;height:20px}
+  #du-app .du-why-card h3{margin:12px 0 6px;font-size:15.5px}
+  #du-app .du-why-card p{font-size:13.5px;line-height:1.5}
+  #du-app .du-audit-grid{grid-template-columns:1fr 1fr;gap:10px}
+  #du-app .du-audit-card{padding:16px}
+  #du-app .du-audit-card .du-icon{width:40px;height:40px}
+  #du-app .du-audit-card h3{font-size:16px}
+  #du-app .du-audit-card .du-check-list li{font-size:13px}
+  #du-app .du-table{font-size:14px}
+  #du-app .du-table th,#du-app .du-table td{padding:12px 14px}
+}
+@media (max-width:420px){
+  #du-app .du-audit-grid{grid-template-columns:1fr}
+}

@@ -1,0 +1,361 @@
+/* ==========================================================
+   DIGITAL UDYAMI · CORE DESIGN SYSTEM (shared by every page)
+   Everything is scoped to #du-app so the WordPress theme and
+   Elementor styles cannot leak in (and ours cannot leak out).
+   ========================================================== */
+html,body{overflow-x:clip}
+#du-app{
+  --du-primary:#FF5904;--du-secondary:#FF9A01;--du-primary-dark:#D94600;
+  --du-ink:#151A24;--du-ink-soft:#2D3442;--du-text:#5C6473;--du-muted:#7D8594;
+  --du-bg:#FFF9F4;--du-surface:#FFFFFF;--du-line:#F0E3D9;--du-soft:#FFF1E7;
+  --du-dark:#171A22;--du-success:#168558;
+  --du-shadow-sm:0 12px 34px rgba(33,25,18,.08);
+  --du-shadow:0 24px 72px rgba(33,25,18,.13);
+  --du-radius-sm:16px;--du-radius:24px;--du-radius-lg:34px;
+  --du-gutter:clamp(16px,6vw,11vw);
+  position:relative;width:100vw;max-width:100vw;
+  margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+  overflow:hidden;color:var(--du-ink);background:var(--du-bg);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:17px;line-height:1.68;isolation:isolate;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+}
+#du-app *,#du-app *::before,#du-app *::after{box-sizing:border-box}
+#du-app a{color:inherit;text-decoration:none}
+#du-app img,#du-app svg{display:block;max-width:100%}
+#du-app button,#du-app input,#du-app select,#du-app textarea{font:inherit;letter-spacing:normal}
+#du-app button{cursor:pointer}
+#du-app p{margin:0 0 16px;color:var(--du-text)}
+#du-app ul{margin:0;padding:0}
+#du-app h1,#du-app h2,#du-app h3,#du-app h4{margin:0;color:var(--du-ink);line-height:1.12;letter-spacing:-.03em;font-weight:800;text-transform:none}
+#du-app h1{font-size:clamp(30px,4.2vw,54px);max-width:920px}
+#du-app h2{font-size:clamp(25px,3vw,38px)}
+#du-app h3{font-size:clamp(18px,1.7vw,23px);letter-spacing:-.018em}
+#du-app .du-wrap{width:100%;margin:0 auto;padding-left:var(--du-gutter);padding-right:var(--du-gutter)}
+#du-app .du-section{position:relative;padding:clamp(60px,8vw,96px) 0}
+#du-app .du-white{background:#fff}
+#du-app .du-soft-bg{background:linear-gradient(180deg,#FFFDFB,#FFF6ED)}
+#du-app .du-dark{background:var(--du-dark);color:#fff}
+#du-app .du-dark h2,#du-app .du-dark h3,#du-app .du-dark h4{color:#fff}
+#du-app .du-dark p{color:#C3C9D3}
+#du-app .du-gradient-text{color:transparent;background:linear-gradient(105deg,var(--du-primary),var(--du-secondary));-webkit-background-clip:text;background-clip:text}
+#du-app .du-eyebrow{display:inline-flex;align-items:center;gap:9px;margin-bottom:14px;color:var(--du-primary-dark);font-size:13px;font-weight:850;letter-spacing:.105em;text-transform:uppercase}
+#du-app .du-eyebrow::before{content:"";width:26px;height:3px;border-radius:99px;background:linear-gradient(90deg,var(--du-primary),var(--du-secondary))}
+#du-app .du-dark .du-eyebrow{color:#FFB15E}
+#du-app .du-lead{max-width:780px;font-size:18px;line-height:1.72}
+#du-app .du-section-head{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);align-items:end;gap:64px;margin-bottom:44px}
+#du-app .du-section-head .du-lead{justify-self:end;margin:0}
+#du-app .du-center-head{max-width:840px;margin:0 auto 44px;text-align:center}
+#du-app .du-center-head .du-eyebrow{justify-content:center}
+#du-app .du-center-head .du-eyebrow::before{display:none}
+#du-app .du-center-head .du-lead{margin:16px auto 0}
+
+/* ---------- Buttons ---------- */
+#du-app .du-btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+#du-app .du-btn{position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 22px;border:1px solid transparent;border-radius:13px;font-size:15px;font-weight:850;line-height:1;cursor:pointer;text-align:center;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease}
+#du-app .du-btn::before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.22) 48%,transparent 70%);transform:translateX(-125%);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+#du-app .du-btn:hover::before{transform:translateX(125%)}
+#du-app .du-btn svg{width:18px;height:18px;flex:0 0 auto;transition:transform .25s ease}
+#du-app .du-btn-primary{color:#fff;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary));box-shadow:0 15px 34px rgba(255,89,4,.24)}
+#du-app .du-btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(255,89,4,.31)}
+#du-app .du-btn-primary:hover svg{transform:translateX(3px)}
+#du-app .du-btn-outline{color:var(--du-ink);border-color:#E8D7CA;background:rgba(255,255,255,.9)}
+#du-app .du-btn-outline:hover{transform:translateY(-3px);border-color:#F3A06F;background:#fff}
+#du-app .du-btn-dark{color:#fff;background:#20242E;box-shadow:0 14px 30px rgba(14,16,22,.22)}
+#du-app .du-btn-dark:hover{transform:translateY(-3px);background:#101218}
+#du-app .du-btn-light{color:var(--du-primary-dark);background:#fff}
+#du-app .du-btn-light:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(0,0,0,.14)}
+#du-app .du-btn-ghost{color:#fff;border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+#du-app .du-btn-ghost:hover{transform:translateY(-3px);background:rgba(255,255,255,.16);border-color:#fff}
+#du-app .du-btn-wa{color:#fff;background:#1FA855;box-shadow:0 14px 30px rgba(31,168,85,.25)}
+#du-app .du-btn-wa:hover{transform:translateY(-3px);background:#178F47}
+#du-app .du-btn:focus-visible,#du-app a:focus-visible,#du-app button:focus-visible,#du-app summary:focus-visible,#du-app input:focus-visible,#du-app select:focus-visible,#du-app textarea:focus-visible{outline:3px solid rgba(255,89,4,.45);outline-offset:3px}
+
+/* ---------- Small shared UI ---------- */
+#du-app .du-card{position:relative;border:1px solid var(--du-line);border-radius:var(--du-radius);background:#fff;box-shadow:var(--du-shadow-sm);transition:transform .27s ease,box-shadow .27s ease,border-color .27s ease}
+#du-app .du-card:hover{transform:translateY(-6px);border-color:#F0B78F;box-shadow:0 25px 62px rgba(33,25,18,.13)}
+#du-app .du-icon{display:grid;place-items:center;flex:0 0 auto;width:52px;height:52px;border-radius:16px;color:var(--du-primary-dark);background:linear-gradient(135deg,#FFF0E5,#FFF8E8);box-shadow:inset 0 0 0 1px rgba(255,89,4,.12)}
+#du-app .du-icon svg{width:25px;height:25px}
+#du-app .du-check-list{display:grid;gap:9px;margin:18px 0 0;padding:0;list-style:none}
+#du-app .du-check-list li{display:flex;align-items:flex-start;gap:9px;color:#515967;font-size:14px;font-weight:680;line-height:1.5}
+#du-app .du-check-list svg{flex:0 0 auto;width:17px;height:17px;margin-top:2px;color:var(--du-success)}
+#du-app .du-dark .du-check-list li{color:#D5DAE2}
+#du-app .du-link{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:var(--du-primary-dark);font-size:14px;font-weight:850}
+#du-app .du-link svg{width:17px;height:17px;transition:transform .22s ease}
+#du-app .du-link:hover svg{transform:translateX(4px)}
+#du-app .du-chips{display:flex;flex-wrap:wrap;gap:9px}
+#du-app .du-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid #EAD9CC;border-radius:999px;background:#fff;color:#5C6473;font-size:13px;font-weight:780;line-height:1.3}
+#du-app .du-chip svg{width:15px;height:15px;color:var(--du-primary)}
+#du-app .du-photo{position:relative;overflow:hidden;border-radius:var(--du-radius-lg);background:linear-gradient(135deg,#F7E5D5,#FFF8EF);box-shadow:var(--du-shadow)}
+#du-app .du-photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+#du-app .du-photo:hover img{transform:scale(1.04)}
+#du-app .du-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(18,17,18,.32));pointer-events:none}
+#du-app .du-photo-label{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;padding:13px 15px;border:1px solid rgba(255,255,255,.28);border-radius:16px;color:#fff;background:rgba(20,20,24,.46);backdrop-filter:blur(12px);font-size:14px;font-weight:800}
+
+/* ---------- Inner-page hero (non-slider pages) ---------- */
+#du-app .du-page-hero{position:relative;overflow:hidden;padding:clamp(56px,8vw,104px) 0 clamp(52px,7vw,88px);background:radial-gradient(circle at 88% 8%,rgba(255,154,1,.2),transparent 28%),radial-gradient(circle at 10% 0,rgba(255,89,4,.1),transparent 32%),linear-gradient(180deg,#FFFDFB,#FFF3E8)}
+#du-app .du-page-hero::before{content:"";position:absolute;right:-190px;top:-220px;width:520px;height:520px;border:1px solid rgba(255,89,4,.12);border-radius:50%;box-shadow:0 0 0 60px rgba(255,89,4,.032),0 0 0 122px rgba(255,154,1,.024);pointer-events:none}
+#du-app .du-page-hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:center}
+#du-app .du-page-hero .du-lead{margin-top:20px}
+#du-app .du-page-hero .du-photo{aspect-ratio:5/4}
+#du-app .du-crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:0;list-style:none;font-size:13px;font-weight:750;color:#777D88}
+#du-app .du-crumbs li+li::before{content:"/";margin-right:8px;color:#C9B8AA}
+#du-app .du-crumbs a:hover{color:var(--du-primary)}
+#du-app .du-pill{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;padding:8px 13px;border:1px solid #F4D4BF;border-radius:999px;background:rgba(255,255,255,.82);color:#5D4434;font-size:13px;font-weight:800}
+#du-app .du-dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary));animation:duPulse 2.2s infinite}
+#du-app .du-proof-row{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:24px}
+#du-app .du-proof-item{display:inline-flex;align-items:center;gap:8px;color:#5E6674;font-size:14px;font-weight:760}
+#du-app .du-proof-item svg{width:17px;height:17px;color:var(--du-success)}
+
+/* ---------- Service cards (2x3 desktop, 2 columns mobile) ---------- */
+#du-app .du-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+#du-app .du-service-grid.du-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+#du-app .du-service-card{display:flex;flex-direction:column;overflow:hidden}
+#du-app .du-service-image{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:var(--du-soft)}
+#du-app .du-service-image img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+#du-app .du-service-card:hover .du-service-image img{transform:scale(1.05)}
+#du-app .du-service-image::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(20,18,19,.55))}
+#du-app .du-service-label{position:absolute;z-index:2;left:14px;bottom:13px;padding:6px 10px;border-radius:999px;color:#fff;background:rgba(20,20,24,.52);font-size:12px;font-weight:850;line-height:1.2;backdrop-filter:blur(8px)}
+#du-app .du-service-body{position:relative;display:flex;flex:1;flex-direction:column;padding:26px 24px 24px}
+#du-app .du-service-icon{position:absolute;right:20px;top:-28px;display:grid;place-items:center;width:54px;height:54px;border:4px solid #fff;border-radius:17px;color:#fff;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary));box-shadow:0 13px 30px rgba(255,89,4,.25)}
+#du-app .du-service-icon svg{width:24px;height:24px}
+#du-app .du-service-body h3{padding-right:58px;font-size:clamp(19px,1.6vw,23px)}
+#du-app .du-service-body p{margin:10px 0 0;font-size:15.5px}
+#du-app .du-service-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:auto;padding-top:20px}
+#du-app .du-service-actions .du-link{margin-top:0}
+#du-app .du-quick-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 15px;border:1px solid #F1C3A2;border-radius:11px;color:var(--du-primary-dark);background:#FFF6EF;font-size:14px;font-weight:850;line-height:1;transition:.22s ease}
+#du-app .du-quick-btn svg{width:17px;height:17px}
+#du-app .du-quick-btn:hover{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary));transform:translateY(-2px)}
+
+/* ---------- Quick Look modal ---------- */
+#du-app .du-modal{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;padding:24px;visibility:hidden;opacity:0;transition:opacity .28s ease,visibility 0s linear .28s}
+#du-app .du-modal.is-open{visibility:visible;opacity:1;transition:opacity .28s ease}
+#du-app .du-modal-backdrop{position:absolute;inset:0;background:rgba(14,15,20,.62);backdrop-filter:blur(6px)}
+#du-app .du-modal-panel{position:relative;display:flex;flex-direction:column;width:min(920px,100%);max-height:min(88vh,860px);overflow:hidden;border-radius:28px;background:#fff;box-shadow:0 40px 110px rgba(0,0,0,.35);transform:translateY(24px) scale(.97);transition:transform .34s cubic-bezier(.2,.8,.2,1)}
+#du-app .du-modal.is-open .du-modal-panel{transform:none}
+#du-app .du-modal-scroll{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#du-app .du-modal-media{position:relative;height:210px;overflow:hidden;background:#2a2320}
+#du-app .du-modal-media img{width:100%;height:100%;object-fit:cover;opacity:.9}
+#du-app .du-modal-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,14,16,.15),rgba(15,14,16,.82))}
+#du-app .du-modal-title{position:absolute;z-index:2;left:30px;right:30px;bottom:22px;color:#fff}
+#du-app .du-modal-title .du-eyebrow{margin-bottom:8px;color:#FFC07A}
+#du-app .du-modal-title h2{color:#fff;font-size:clamp(24px,3vw,34px)}
+#du-app .du-modal-title p{margin:8px 0 0;color:#E6E8EC;font-size:15px;max-width:640px}
+#du-app .du-modal-close{position:absolute;z-index:5;top:14px;right:14px;display:grid;place-items:center;width:44px;height:44px;border:1px solid rgba(255,255,255,.3);border-radius:50%;color:#fff;background:rgba(20,20,24,.5);backdrop-filter:blur(10px);transition:.2s ease}
+#du-app .du-modal-close:hover{background:var(--du-primary);transform:rotate(90deg)}
+#du-app .du-modal-close svg{width:20px;height:20px}
+#du-app .du-modal-body{padding:28px 30px 8px}
+#du-app .du-modal-body h3{margin:0 0 12px;font-size:17px;letter-spacing:-.01em}
+#du-app .du-modal-body .du-overview{font-size:16px;line-height:1.7;color:#4E5665}
+#du-app .du-modal-cols{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;margin-top:22px}
+#du-app .du-modal-block{margin-top:22px}
+#du-app .du-modal-block:first-child{margin-top:0}
+#du-app .du-modal .du-check-list{grid-template-columns:1fr 1fr;gap:10px 16px;margin-top:0}
+#du-app .du-modal-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none;counter-reset:dustep}
+#du-app .du-modal-steps li{position:relative;padding:16px 16px 14px;border:1px solid var(--du-line);border-radius:16px;background:#FFFAF6;font-size:14px;line-height:1.5;color:#4E5665;counter-increment:dustep}
+#du-app .du-modal-steps li::before{content:counter(dustep,decimal-leading-zero);display:block;margin-bottom:6px;color:var(--du-primary);font-size:12px;font-weight:900;letter-spacing:.08em}
+#du-app .du-modal-steps strong{display:block;margin-bottom:3px;color:var(--du-ink);font-size:15px}
+#du-app .du-modal-side{padding:20px;border:1px solid var(--du-line);border-radius:20px;background:linear-gradient(180deg,#FFFDFB,#FFF4EA)}
+#du-app .du-modal-side .du-chips{gap:7px}
+#du-app .du-modal-side .du-chip{font-size:12.5px;padding:7px 10px}
+#du-app .du-modal-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:18px 30px;border-top:1px solid var(--du-line);background:#fff}
+#du-app .du-modal-foot .du-btn-row{margin:0}
+#du-app .du-modal-foot .du-btn{min-height:48px}
+#du-app .du-modal-nav{display:flex;gap:8px}
+#du-app .du-modal-nav button{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 13px;border:1px solid #EAD9CC;border-radius:11px;color:#4E5665;background:#fff;font-size:13px;font-weight:800;transition:.2s ease}
+#du-app .du-modal-nav button:hover{color:var(--du-primary-dark);border-color:#F1B58E}
+#du-app .du-modal-nav svg{width:16px;height:16px}
+#du-app .du-modal-nav .du-flip svg{transform:scaleX(-1)}
+
+/* ---------- Process ---------- */
+#du-app .du-process{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none;counter-reset:duproc}
+#du-app .du-process li{position:relative;padding:24px 20px;border:1px solid var(--du-line);border-radius:22px;background:#fff;box-shadow:var(--du-shadow-sm);counter-increment:duproc}
+#du-app .du-process li::before{content:counter(duproc,decimal-leading-zero);display:grid;place-items:center;width:44px;height:44px;margin-bottom:16px;border-radius:14px;color:#fff;font-size:14px;font-weight:900;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary))}
+#du-app .du-process li:not(:last-child)::after{content:"";position:absolute;top:45px;right:-17px;width:18px;height:2px;background:linear-gradient(90deg,#F4B58C,transparent)}
+#du-app .du-process h3{margin-bottom:8px;font-size:18px}
+#du-app .du-process p{margin:0;font-size:14.5px;line-height:1.6}
+
+/* ---------- Engagement models ---------- */
+#du-app .du-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+#du-app .du-plan{display:flex;flex-direction:column;padding:30px 26px}
+#du-app .du-plan.is-featured{border:2px solid var(--du-primary);box-shadow:0 30px 70px rgba(255,89,4,.16)}
+#du-app .du-plan-badge{position:absolute;top:-13px;left:26px;padding:5px 12px;border-radius:999px;color:#fff;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary));font-size:12px;font-weight:850;letter-spacing:.04em}
+#du-app .du-plan h3{margin:16px 0 6px;font-size:23px}
+#du-app .du-plan-for{margin:0;font-size:14.5px}
+#du-app .du-plan-price{margin:18px 0 4px;color:var(--du-ink);font-size:15px;font-weight:850}
+#du-app .du-plan-price span{display:block;color:var(--du-muted);font-size:13px;font-weight:700}
+#du-app .du-plan .du-check-list{margin-bottom:24px}
+#du-app .du-plan .du-btn{margin-top:auto;width:100%}
+
+/* ---------- Tools marquee ---------- */
+#du-app .du-marquee{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+#du-app .du-marquee-track{display:flex;gap:12px;width:max-content;animation:duMarquee 38s linear infinite}
+#du-app .du-marquee:hover .du-marquee-track{animation-play-state:paused}
+#du-app .du-marquee + .du-marquee{margin-top:12px}
+#du-app .du-marquee.is-reverse .du-marquee-track{animation-direction:reverse}
+#du-app .du-tool{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border:1px solid var(--du-line);border-radius:14px;background:#fff;color:#394050;font-size:15px;font-weight:800;white-space:nowrap;box-shadow:0 8px 20px rgba(33,25,18,.05)}
+#du-app .du-tool i{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary))}
+
+/* ---------- Audit banner ---------- */
+#du-app .du-audit{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;align-items:center;padding:clamp(28px,5vw,56px);border-radius:32px;color:#fff;background:radial-gradient(circle at 90% 10%,rgba(255,255,255,.28),transparent 30%),linear-gradient(135deg,var(--du-primary),var(--du-secondary))}
+#du-app .du-audit h2{color:#fff}
+#du-app .du-audit p{color:rgba(255,255,255,.92)}
+#du-app .du-audit .du-eyebrow{color:#fff}
+#du-app .du-audit .du-eyebrow::before{background:#fff}
+#du-app .du-audit-list{display:grid;gap:10px;margin:0;padding:22px;list-style:none;border:1px solid rgba(255,255,255,.35);border-radius:22px;background:rgba(255,255,255,.14);backdrop-filter:blur(8px)}
+#du-app .du-audit-list li{display:flex;gap:10px;align-items:flex-start;font-size:15px;font-weight:750;line-height:1.45}
+#du-app .du-audit-list svg{flex:0 0 auto;width:18px;height:18px;margin-top:1px}
+
+/* ---------- FAQ ---------- */
+#du-app .du-faq-list{display:grid;gap:12px;max-width:980px;margin:0 auto}
+#du-app .du-faq{overflow:hidden;border:1px solid var(--du-line);border-radius:18px;background:#fff;box-shadow:0 10px 28px rgba(44,30,20,.045)}
+#du-app .du-faq summary{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:19px 22px;cursor:pointer;list-style:none;color:var(--du-ink);font-weight:850;line-height:1.4}
+#du-app .du-faq summary::-webkit-details-marker{display:none}
+#du-app .du-faq summary::after{content:"+";display:grid;place-items:center;flex:0 0 auto;width:30px;height:30px;border-radius:50%;color:var(--du-primary-dark);background:var(--du-soft);font-size:20px;transition:transform .24s ease}
+#du-app .du-faq[open] summary::after{transform:rotate(45deg)}
+#du-app .du-faq-answer{padding:0 22px 18px;max-width:860px}
+#du-app .du-faq-answer p{margin:0}
+
+/* ---------- CTA + form ---------- */
+#du-app .du-cta-section{position:relative;padding:clamp(60px,8vw,88px) 0;background:radial-gradient(circle at 87% 8%,rgba(255,154,1,.25),transparent 25%),linear-gradient(135deg,#181A22,#26212A);color:#fff}
+#du-app .du-cta-section h2,#du-app .du-cta-section h3{color:#fff}
+#du-app .du-cta-section p{color:#C8CDD6}
+#du-app .du-cta-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:54px;align-items:center}
+#du-app .du-form-card{padding:28px;border:1px solid rgba(255,255,255,.13);border-radius:28px;background:rgba(255,255,255,.075);box-shadow:0 30px 70px rgba(0,0,0,.22);backdrop-filter:blur(16px)}
+#du-app .du-form-card h3{margin-bottom:8px}
+#du-app .du-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+#du-app .du-field{display:grid;gap:7px}
+#du-app .du-field.du-full{grid-column:1/-1}
+#du-app .du-field label{color:#F6F7F9;font-size:13px;font-weight:800}
+#du-app .du-field input,#du-app .du-field select,#du-app .du-field textarea{width:100%;min-height:50px;margin:0;padding:11px 13px;border:1px solid rgba(255,255,255,.17);border-radius:12px;color:#fff;background:rgba(255,255,255,.08);outline:none;box-shadow:none;font-size:16px;transition:border-color .2s ease,background .2s ease}
+#du-app .du-field textarea{min-height:96px;resize:vertical}
+#du-app .du-field input::placeholder,#du-app .du-field textarea::placeholder{color:#B7BDC8}
+#du-app .du-field select option{color:#111;background:#fff}
+#du-app .du-field input:focus,#du-app .du-field select:focus,#du-app .du-field textarea:focus{border-color:#FF9A55;background:rgba(255,255,255,.12)}
+#du-app .du-form-submit{width:100%;margin-top:16px}
+#du-app .du-form-note{margin:11px 0 0;font-size:12.5px;line-height:1.55}
+#du-app .du-form-status{min-height:1em;margin-top:6px;color:#FFD29B;font-size:13px;font-weight:750}
+
+/* ---------- Contact strip ---------- */
+#du-app .du-contact-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#du-app .du-contact-card{display:block;padding:22px;border:1px solid var(--du-line);border-radius:20px;background:#fff;box-shadow:var(--du-shadow-sm);transition:.25s ease}
+#du-app a.du-contact-card:hover{transform:translateY(-5px);border-color:#F2B58A}
+#du-app .du-contact-card .du-icon{margin-bottom:14px}
+#du-app .du-contact-card strong{display:block;margin-bottom:4px;color:var(--du-ink);font-size:16px}
+#du-app .du-contact-card span{display:block;color:var(--du-text);font-size:14px;word-break:break-word}
+#du-app .du-socials{display:flex;flex-wrap:wrap;gap:11px}
+#du-app .du-social{display:grid;place-items:center;width:48px;height:48px;border:1px solid #E9D9CD;border-radius:15px;color:#373D48;background:#fff;box-shadow:0 10px 24px rgba(33,25,18,.06);transition:.24s ease}
+#du-app .du-social:hover{transform:translateY(-4px);color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--du-primary),var(--du-secondary))}
+#du-app .du-social svg{width:22px;height:22px}
+#du-app .du-socials-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:22px;padding:20px 22px;border:1px solid var(--du-line);border-radius:20px;background:#fff}
+#du-app .du-socials-row strong{color:var(--du-ink)}
+
+/* ---------- Floating WhatsApp + mobile action bar ---------- */
+#du-app .du-float-wa{position:fixed;z-index:99990;right:22px;bottom:22px;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;color:#fff;background:#1FA855;box-shadow:0 16px 36px rgba(31,168,85,.38);transition:transform .25s ease}
+#du-app .du-float-wa:hover{transform:scale(1.08)}
+#du-app .du-float-wa svg{width:28px;height:28px}
+#du-app .du-float-wa::before{content:"";position:absolute;inset:0;border-radius:50%;animation:duRing 2.6s infinite}
+#du-app .du-mobile-bar{display:none}
+
+/* ---------- Reveal animation ---------- */
+#du-app.du-js [data-du-reveal]{--du-x:0px;--du-y:22px;opacity:0;transform:translate3d(var(--du-x),var(--du-y),0);transition:opacity .65s cubic-bezier(.2,.72,.2,1),transform .65s cubic-bezier(.2,.72,.2,1)}
+#du-app.du-js [data-du-reveal].du-visible{opacity:1;transform:none}
+#du-app.du-js [data-du-side="left"]{--du-x:-18px;--du-y:10px}
+#du-app.du-js [data-du-side="right"]{--du-x:18px;--du-y:10px}
+#du-app.du-js [data-du-delay="1"]{transition-delay:.07s}
+#du-app.du-js [data-du-delay="2"]{transition-delay:.14s}
+#du-app.du-js [data-du-delay="3"]{transition-delay:.21s}
+#du-app.du-js [data-du-delay="4"]{transition-delay:.28s}
+@keyframes duPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,89,4,.22)}50%{box-shadow:0 0 0 9px rgba(255,89,4,0)}}
+@keyframes duRing{0%{box-shadow:0 0 0 0 rgba(31,168,85,.45)}70%,100%{box-shadow:0 0 0 16px rgba(31,168,85,0)}}
+@keyframes duMarquee{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 6px))}}
+@keyframes duFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-8px,0)}}
+
+/* ================= Responsive ================= */
+@media (max-width:1100px){
+  #du-app .du-section-head,#du-app .du-cta-grid,#du-app .du-page-hero-grid,#du-app .du-audit{grid-template-columns:1fr;gap:28px}
+  #du-app .du-section-head .du-lead{justify-self:start}
+  #du-app .du-contact-strip{grid-template-columns:1fr 1fr}
+  #du-app .du-process{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #du-app .du-process li::after{display:none}
+  #du-app .du-plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}
+  #du-app .du-page-hero .du-photo{aspect-ratio:16/9;max-height:420px}
+}
+@media (max-width:900px){
+  #du-app .du-service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  #du-app .du-modal-cols{grid-template-columns:1fr;gap:0}
+  #du-app .du-modal-side{margin-top:22px}
+}
+@media (max-width:760px){
+  #du-app{font-size:16px;line-height:1.62}
+  #du-app .du-section-head,#du-app .du-center-head{margin-bottom:30px}
+  #du-app .du-lead{font-size:16px}
+  #du-app .du-btn-row{display:grid;grid-template-columns:1fr;gap:10px}
+  #du-app .du-btn{width:100%;min-height:52px}
+  #du-app .du-form-card{padding:22px 18px;border-radius:22px}
+  #du-app .du-form-grid{grid-template-columns:1fr}
+  #du-app .du-contact-strip{grid-template-columns:1fr 1fr;gap:10px}
+  #du-app .du-contact-card{padding:16px}
+  #du-app .du-contact-card .du-icon{width:42px;height:42px;margin-bottom:10px}
+  #du-app .du-contact-card strong{font-size:14.5px}
+  #du-app .du-contact-card span{font-size:13px}
+  #du-app .du-process{grid-template-columns:1fr;gap:12px}
+  #du-app .du-process li{display:grid;grid-template-columns:44px 1fr;gap:4px 14px;padding:18px}
+  #du-app .du-process li::before{grid-row:1/3;margin:0}
+  #du-app .du-faq summary{padding:16px 16px;font-size:15.5px}
+  #du-app .du-faq-answer{padding:0 16px 16px;font-size:15px}
+  #du-app .du-socials-row{flex-direction:column;align-items:flex-start}
+
+  /* Service cards: compact 2-column (2x3) layout on phones */
+  #du-app .du-service-grid,#du-app .du-service-grid.du-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #du-app .du-service-card{border-radius:18px}
+  #du-app .du-service-card:hover{transform:none}
+  #du-app .du-service-image{aspect-ratio:4/3}
+  #du-app .du-service-label,#du-app .du-service-card .du-check-list,#du-app .du-service-actions .du-link{display:none}
+  #du-app .du-service-body{padding:20px 13px 13px}
+  #du-app .du-service-icon{right:auto;left:12px;top:-22px;width:42px;height:42px;border-width:3px;border-radius:13px}
+  #du-app .du-service-icon svg{width:19px;height:19px}
+  #du-app .du-service-body h3{padding:6px 0 0;font-size:15.5px;line-height:1.22}
+  #du-app .du-service-body p{margin-top:6px;font-size:13px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  #du-app .du-service-actions{padding-top:12px}
+  #du-app .du-quick-btn{width:100%;min-height:40px;padding:0 8px;font-size:13px;border-radius:10px}
+
+  /* Modal becomes a bottom sheet */
+  #du-app .du-modal{align-items:flex-end;padding:0}
+  #du-app .du-modal-panel{width:100%;max-height:92vh;max-height:92dvh;border-radius:24px 24px 0 0;transform:translateY(100%)}
+  #du-app .du-modal-panel::before{content:"";position:absolute;z-index:6;top:8px;left:50%;width:44px;height:5px;margin-left:-22px;border-radius:9px;background:rgba(255,255,255,.7)}
+  #du-app .du-modal-media{height:170px}
+  #du-app .du-modal-title{left:18px;right:64px;bottom:16px}
+  #du-app .du-modal-title p{font-size:13.5px}
+  #du-app .du-modal-body{padding:20px 18px 6px}
+  #du-app .du-modal .du-check-list{grid-template-columns:1fr}
+  #du-app .du-modal-steps{grid-template-columns:1fr}
+  #du-app .du-modal-foot{flex-direction:column-reverse;align-items:stretch;padding:14px 18px calc(14px + env(safe-area-inset-bottom))}
+  #du-app .du-modal-foot .du-btn-row{grid-template-columns:1fr 1fr}
+  #du-app .du-modal-foot{gap:10px}
+  #du-app .du-modal-foot .du-btn{min-height:48px;padding:0 10px;font-size:14.5px;white-space:nowrap}
+  #du-app .du-hide-sm{display:none}
+  #du-app .du-modal-nav{justify-content:space-between}
+  #du-app .du-modal-nav button{min-height:38px;font-size:12.5px}
+
+  /* Sticky call / WhatsApp bar replaces floating button on phones */
+  #du-app .du-float-wa{display:none}
+  #du-app .du-mobile-bar{position:fixed;z-index:99990;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid var(--du-line);box-shadow:0 -10px 30px rgba(33,25,18,.1);backdrop-filter:blur(12px);transform:translateY(110%);transition:transform .3s ease}
+  #du-app .du-mobile-bar.is-visible{transform:none}
+  #du-app .du-mobile-bar a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:12px;font-size:15px;font-weight:850}
+  #du-app .du-mobile-bar svg{width:19px;height:19px}
+  #du-app .du-mobile-bar .is-call{color:var(--du-ink);border:1px solid #E8D7CA;background:#fff}
+  #du-app .du-mobile-bar .is-wa{color:#fff;background:#1FA855}
+  #du-app .du-audit-list{padding:18px}
+}
+@media (max-width:380px){
+  #du-app .du-service-grid{gap:10px}
+  #du-app .du-service-body{padding:18px 10px 10px}
+  #du-app .du-service-body h3{font-size:14.5px}
+  #du-app .du-contact-strip{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  #du-app *,#du-app *::before,#du-app *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  #du-app [data-du-reveal]{opacity:1!important;transform:none!important}
+}
