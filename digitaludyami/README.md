@@ -12,6 +12,8 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/contact.html` | `/contact/` | Contact page |
 | `dist/industries.html` | `/industries/` | **New page** |
 | `dist/free-digital-audit.html` | `/free-digital-audit/` | **New page** (lead magnet) |
+| `dist/privacy-policy.html` | `/privacy-policy/` | **New page** |
+| `dist/terms-and-conditions.html` | `/terms-and-conditions/` | **New page** |
 | `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
 | `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
 
@@ -61,6 +63,10 @@ python3 build.py        # regenerates dist/ and preview/
 ```
 
 Open `preview/*.html` in a browser to check a page locally.
+
+## Legal pages: before publishing
+
+Fill in the business details at the top of `src/legal.py` (legal business name, registered address, Grievance Officer name, court city, payment and notice periods), then run `python3 build.py`. Empty values fall back to neutral wording, so the pages are safe to publish as they are. They are a starting point, not legal advice: please have a lawyer review them. If you add a cookie banner or new tools (for example Hotjar or a CRM), update the Cookies and Sharing sections.
 
 ## Please confirm before going live
 

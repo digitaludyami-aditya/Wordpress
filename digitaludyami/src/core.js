@@ -149,3 +149,23 @@
     check();
   }
 })();
+/* ---------- Legal pages: table of contents scrollspy + print ---------- */
+(function(){
+  var root=document.getElementById('du-app');if(!root)return;
+  var toc=root.querySelector('.du-toc');
+  root.querySelectorAll('[data-du-print]').forEach(function(b){b.addEventListener('click',function(){window.print()})});
+  root.querySelectorAll('.du-toc-mobile a').forEach(function(a){a.addEventListener('click',function(){var d=a.closest('details');if(d)d.open=false})});
+  if(!toc)return;
+  var links={};toc.querySelectorAll('a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  var secs=Array.prototype.slice.call(root.querySelectorAll('.du-legal-section')),cur=null,tick=false;
+  function spy(){
+    tick=false;var id=secs.length?secs[0].id:null;
+    secs.forEach(function(s){if(s.getBoundingClientRect().top<=160)id=s.id});
+    if((window.innerHeight+window.pageYOffset)>=document.documentElement.scrollHeight-4)id=secs[secs.length-1].id;
+    if(id===cur)return;cur=id;
+    Object.keys(links).forEach(function(k){links[k].classList.toggle('is-active',k===id)});
+    var a=links[id];if(a&&toc.scrollHeight>toc.clientHeight){var t=a.offsetTop-toc.clientHeight/2;toc.scrollTo({top:t<0?0:t})}
+  }
+  window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(spy)}},{passive:true});
+  spy();
+})();

@@ -409,7 +409,7 @@ html,body{overflow-x:clip}
   --du-gutter:clamp(16px,6vw,11vw);
   position:relative;width:100vw;max-width:100vw;
   margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
-  overflow:hidden;color:var(--du-ink);background:var(--du-bg);
+  overflow:hidden;overflow:clip;color:var(--du-ink);background:var(--du-bg);
   font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   font-size:17px;line-height:1.68;isolation:isolate;
   -webkit-text-size-adjust:100%;text-size-adjust:100%;
@@ -1116,6 +1116,26 @@ html,body{overflow-x:clip}
     window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(check)}},{passive:true});
     check();
   }
+})();
+/* ---------- Legal pages: table of contents scrollspy + print ---------- */
+(function(){
+  var root=document.getElementById('du-app');if(!root)return;
+  var toc=root.querySelector('.du-toc');
+  root.querySelectorAll('[data-du-print]').forEach(function(b){b.addEventListener('click',function(){window.print()})});
+  root.querySelectorAll('.du-toc-mobile a').forEach(function(a){a.addEventListener('click',function(){var d=a.closest('details');if(d)d.open=false})});
+  if(!toc)return;
+  var links={};toc.querySelectorAll('a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  var secs=Array.prototype.slice.call(root.querySelectorAll('.du-legal-section')),cur=null,tick=false;
+  function spy(){
+    tick=false;var id=secs.length?secs[0].id:null;
+    secs.forEach(function(s){if(s.getBoundingClientRect().top<=160)id=s.id});
+    if((window.innerHeight+window.pageYOffset)>=document.documentElement.scrollHeight-4)id=secs[secs.length-1].id;
+    if(id===cur)return;cur=id;
+    Object.keys(links).forEach(function(k){links[k].classList.toggle('is-active',k===id)});
+    var a=links[id];if(a&&toc.scrollHeight>toc.clientHeight){var t=a.offsetTop-toc.clientHeight/2;toc.scrollTo({top:t<0?0:t})}
+  }
+  window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(spy)}},{passive:true});
+  spy();
 })();
 </script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "@id": "https://www.digitaludyami.com/#organization", "name": "Digital Udyami", "url": "https://www.digitaludyami.com/", "email": "start@digitaludyami.com", "telephone": "+918595565628", "description": "Digital marketing agency in India offering SEO, website development, Google Ads, Meta Ads, social media marketing, branding and AI automation.", "areaServed": {"@type": "Country", "name": "India"}, "priceRange": "₹₹", "sameAs": ["https://www.facebook.com/digitaludyami", "https://www.instagram.com/digitaludyami", "https://www.linkedin.com/company/digitaludyami/", "https://www.x.com/digitaludyami"]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do you specialise in one industry?", "acceptedAnswer": {"@type": "Answer", "text": "No. We work across industries, but every plan is built around the sales cycle, customer value and buying behaviour of that specific sector."}}, {"@type": "Question", "name": "Do you work with businesses outside metro cities?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Many of the businesses we support serve tier 2 and tier 3 cities, where local SEO, WhatsApp-led enquiry journeys and regional content work particularly well."}}, {"@type": "Question", "name": "Can you handle regulated industries like healthcare or finance?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, with care. We follow platform advertising policies and avoid misleading claims, and we recommend your compliance team reviews sensitive content before it goes live."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.digitaludyami.com/"}, {"@type": "ListItem", "position": 2, "name": "Industries", "item": "https://www.digitaludyami.com/industries/"}]}</script>
