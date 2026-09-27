@@ -990,7 +990,18 @@ def build_header_files():
     print(f"built header               {len(h) / 1024:6.1f} KB")
 
 
+def build_roadmap():
+    """The Road Map landing page is a hand-written widget with its own header and footer."""
+    w = (SRC / "roadmap.html").read_text()
+    (ROOT / "dist" / "digital-india-roadmap.html").write_text(w)
+    (ROOT / "preview" / "digital-india-roadmap.html").write_text(
+        '<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+        '<title>Digital India Startup Road Map 2026 | Digital Udyami</title><style>body{margin:0}</style></head><body>' + w + '</body></html>')
+    print(f"built digital-india-roadmap  {len(w) / 1024:6.1f} KB")
+
+
 if __name__ == "__main__":
     build()
     build_footer_files()
     build_header_files()
+    build_roadmap()

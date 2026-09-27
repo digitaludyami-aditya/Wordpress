@@ -14,6 +14,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/free-digital-audit.html` | `/free-digital-audit/` | **New page** (lead magnet) |
 | `dist/privacy-policy.html` | `/privacy-policy/` | **New page** |
 | `dist/terms-and-conditions.html` | `/terms-and-conditions/` | **New page** |
+| `dist/digital-india-roadmap.html` | `/digitalindiaroadmap` | Road Map 2026 sales landing page (own header/footer: use the **Elementor Canvas** template). Edit `data-spots-left` at the top each time you sign a client. Source: `src/roadmap.html` |
 | `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
 | `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
 
