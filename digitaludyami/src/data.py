@@ -26,6 +26,8 @@ URL = {
     "industries": f"{SITE}/industries/",
     "audit": f"{SITE}/free-digital-audit/",
     "process": f"{SITE}/how-we-work/",
+    "blog": "https://digitaludyami.com/blog",
+    "roadmap": "https://digitaludyami.com/digitalindiaroadmap",
 }
 
 IMG = {

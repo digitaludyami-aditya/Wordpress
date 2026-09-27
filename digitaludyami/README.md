@@ -12,6 +12,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/contact.html` | `/contact/` | Contact page |
 | `dist/industries.html` | `/industries/` | **New page** |
 | `dist/free-digital-audit.html` | `/free-digital-audit/` | **New page** (lead magnet) |
+| `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
 | `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
 
 The SEO title, meta description and focus keyword for each page are in the comment at the top of each file.
@@ -33,6 +34,13 @@ The SEO title, meta description and focus keyword for each page are in the comme
 3. Set the SEO title and meta description in your SEO plugin, using the comment at the top of the file.
 4. Create the two new pages with slugs `industries` and `free-digital-audit`, and add them to your menu.
 5. Before launch, replace the Unsplash image URLs with your own WordPress-hosted WebP images.
+
+## Installing the header
+
+- Elementor Pro → Templates → Theme Builder → **Header** → edit your current header (or Add New). Delete the old V1 HTML widget, add one HTML widget, paste `dist/header.html`, and set the display condition to **Entire Site**.
+- Set the header container to **Full Width** with **0 padding**. Do **not** turn on Elementor's Sticky option, because the header is already sticky. To make it non-sticky, change `data-duh-sticky="true"` to `"false"`.
+- Links: Home, About, Services (mega menu), Blog (`/blog`), Digital India Roadmap (`/digitalindiaroadmap`), Let's Talk (`/contact`).
+- `preview/*-full-site.html` shows each page with the header and footer together.
 
 ## Installing the footer
 

@@ -717,7 +717,8 @@ def build_footer():
     svc = "".join(f'<li><a href="{x["url"]}">{e(x["name"])}</a></li>' for x in SERVICES)
     company = "".join(f'<li><a href="{u}">{t}</a></li>' for t, u in [
         ("Home", URL["home"]), ("About Us", URL["about"]), ("All Services", URL["services"]),
-        ("Industries We Serve", URL["industries"]), ("Free Digital Audit", URL["audit"]), ("Contact Us", URL["contact"])])
+        ("Industries We Serve", URL["industries"]), ("Blog", URL["blog"]), ("Digital India Roadmap", URL["roadmap"]),
+        ("Free Digital Audit", URL["audit"]), ("Contact Us", URL["contact"])])
     social = "".join(f'<a href="{u}" target="_blank" rel="noopener" aria-label="Digital Udyami on {n}">{fi(i[4:])}</a>' for n, u, i in SOCIALS)
     legal = "".join(f'<a href="{u}">{t}</a>' for t, u in LEGAL)
     msg = wa("Hello Digital Udyami, I would like to discuss my business growth.")
@@ -787,6 +788,152 @@ def build_footer_files():
     print(f"built footer               {len(f) / 1024:6.1f} KB")
 
 
+# ---------------------------------------------------------------- header
+HEADER_CSS = (SRC / "header.css").read_text()
+LOGO = "https://digitaludyami.com/wp-content/uploads/2026/09/cropped-Digital-Udyami-Logo.png"
+MENU_BLURB = {
+    "seo-services": "Rank on Google, Maps and AI answers",
+    "website-development": "Fast, mobile-first sites that convert",
+    "google-ads-management": "High-intent search campaigns",
+    "meta-ads-management": "Facebook and Instagram lead ads",
+    "social-media-marketing": "Consistent content and community",
+    "branding-advertising": "Identity, message and creative",
+    "ai-automation": "Chatbots, follow-up and CRM workflows",
+    "ai-content-management": "Scalable content with human review",
+}
+
+
+def build_header():
+    hi = lambda n: f'<svg aria-hidden="true"><use href="#duh-{n}"></use></svg>'
+    used = ["arrow", "chev", "close", "phone", "mail", "whatsapp", "star", "check", "globe", "home", "info", "grid",
+            "book", "flag", "search", "code", "target", "megaphone", "users", "spark", "automation", "file",
+            "facebook-brand", "instagram-brand", "linkedin-brand", "x-brand"]
+    icons = footer_icons(used).replace('id="duf-', 'id="duh-')
+    msg = wa("Hello Digital Udyami, I would like to discuss my business growth.")
+    ext = ' target="_blank" rel="noopener"'
+    social = lambda cls: "".join(f'<a href="{u}"{ext} aria-label="Digital Udyami on {n}">{hi(i[4:])}</a>' for n, u, i in SOCIALS)
+
+    def svc_link(s):
+        return (f'<a class="duh-svc" href="{s["url"]}"><i>{hi(s["icon"][4:])}</i>'
+                f'<span><strong>{e(s["name"])}</strong><small>{e(MENU_BLURB[s["slug"]])}</small></span></a>')
+
+    core = "".join(svc_link(SERVICE_BY_SLUG[x]) for x in CORE_SLUGS)
+    ai = "".join(svc_link(SERVICE_BY_SLUG[x]) for x in AI_SLUGS)
+    m_svc = "".join(f'<a class="duh-m-svc" href="{s["url"]}">{hi(s["icon"][4:])}{e(s["name"])}</a>' for s in SERVICES)
+    pri, lazy = ' fetchpriority="high"', ' loading="lazy"'
+    logo = lambda eager: (f'<img class="duh-logo" src="{LOGO}" alt="Digital Udyami" width="210" height="56" decoding="async"'
+                          f'{pri if eager else lazy}>'
+                          '<span class="duh-logo-fallback" hidden><span>DU</span>Digital Udyami</span>')
+
+    nav = [("Home", URL["home"], "home"), ("About", URL["about"], "info"), None,
+           ("Blog", URL["blog"], "book"), ("Digital India Roadmap", URL["roadmap"], "flag"), ("Contact", URL["contact"], "chat")]
+    desk = []
+    for item in nav:
+        if item is None:
+            desk.append(f'<button type="button" class="duh-mega-btn" aria-expanded="false" aria-controls="duh-mega" data-duh-services>Services{hi("chev")}</button>')
+        elif item[0] != "Contact":
+            desk.append(f'<a href="{item[1]}">{item[0]}</a>')
+    mob = []
+    for item in nav:
+        if item is None:
+            mob.append(f'''<li><button type="button" class="duh-m-link" aria-expanded="false" aria-controls="duh-m-services" data-duh-acc><i>{hi("grid")}</i>Services{hi("chev").replace("<svg", '<svg class="duh-caret"')}</button>
+  <div class="duh-m-sub" id="duh-m-services"><div><div class="duh-m-sub-grid">{m_svc}<a class="duh-m-all" href="{URL["services"]}">Explore all services{hi("arrow")}</a></div></div></div></li>''')
+        else:
+            ic = "mail" if item[2] == "chat" else item[2]
+            mob.append(f'<li><a class="duh-m-link" href="{item[1]}"><i>{hi(ic)}</i>{item[0]}</a></li>')
+
+    body = f'''<div id="du-header" data-duh-sticky="true">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap">
+<style>
+{HEADER_CSS}</style>
+{icons}
+<div class="duh-spacer" aria-hidden="true"></div>
+<header class="duh-shell">
+  <div class="duh-topbar"><div class="duh-wrap">
+    <div class="duh-top-left">
+      <span class="duh-top-note"><span class="duh-live" aria-hidden="true"></span>PAN India digital growth partner</span>
+      <a class="duh-top-item" href="tel:{PHONE_TEL}">{hi("phone")}{PHONE_DISPLAY}</a>
+      <a class="duh-top-item duh-top-hide-md" href="mailto:{EMAIL}">{hi("mail")}{EMAIL}</a>
+    </div>
+    <div class="duh-top-right">
+      <a class="duh-top-item" href="{REVIEWS_URL}"{ext}><span class="duh-stars">{hi("star") * 5}</span>Google Reviews</a>
+      <div class="duh-top-social">{social("top")}</div>
+    </div>
+  </div></div>
+  <div class="duh-bar">
+    <div class="duh-wrap duh-bar-inner">
+      <a class="duh-brand" href="{URL["home"]}" aria-label="Digital Udyami home">{logo(True)}</a>
+      <nav class="duh-nav" aria-label="Main navigation">{"".join(desk)}</nav>
+      <div class="duh-actions">
+        <a class="duh-icon-btn is-call" href="tel:{PHONE_TEL}" aria-label="Call {PHONE_DISPLAY}">{hi("phone")}<span class="duh-tip">Call {PHONE_DISPLAY}</span></a>
+        <a class="duh-icon-btn is-wa" href="{msg}"{ext} aria-label="Chat on WhatsApp">{hi("whatsapp")}<span class="duh-tip">Chat on WhatsApp</span></a>
+        <a class="duh-cta" href="{URL["contact"]}">Let&rsquo;s Talk{hi("arrow")}</a>
+        <button type="button" class="duh-burger" aria-label="Open menu" aria-expanded="false" aria-controls="duh-drawer"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="duh-mega" id="duh-mega"><div class="duh-wrap"><div class="duh-mega-panel">
+      <div class="duh-mega-main">
+        <p class="duh-mega-label">Marketing and growth<a href="{URL["services"]}">Explore all services{hi("arrow")}</a></p>
+        <div class="duh-mega-grid">{core}</div>
+        <p class="duh-mega-label">AI solutions</p>
+        <div class="duh-mega-grid">{ai}</div>
+      </div>
+      <aside class="duh-mega-side">
+        <h3>Free Digital Growth Audit</h3>
+        <p>Find out what is holding your website, search, ads and social media back.</p>
+        <ul class="duh-side-list"><li>{hi("check")}Website and SEO review</li><li>{hi("check")}Ads and tracking check</li><li>{hi("check")}Prioritised action plan</li></ul>
+        <a class="duh-side-btn" href="{URL["audit"]}">Claim My Free Audit{hi("arrow")}</a>
+        <div class="duh-side-links"><a href="{URL["industries"]}">Industries we serve</a><a href="tel:{PHONE_TEL}">Call us</a></div>
+      </aside>
+    </div></div></div>
+    <div class="duh-progress" aria-hidden="true"></div>
+  </div>
+</header>
+<div class="duh-overlay" data-duh-close></div>
+<aside class="duh-drawer" id="duh-drawer" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="duh-drawer-head"><a class="duh-brand" href="{URL["home"]}" aria-label="Digital Udyami home">{logo(False)}</a><button type="button" class="duh-close-btn" data-duh-close aria-label="Close menu">{hi("close")}</button></div>
+  <div class="duh-drawer-body">
+    <nav aria-label="Mobile navigation"><ul class="duh-m-nav">{"".join(mob)}</ul></nav>
+    <div class="duh-m-cta">
+      <a class="is-call" href="tel:{PHONE_TEL}">{hi("phone")}Call</a>
+      <a class="is-wa" href="{msg}"{ext}>{hi("whatsapp")}WhatsApp</a>
+      <a class="duh-cta" href="{URL["audit"]}">Get a Free Audit{hi("arrow")}</a>
+    </div>
+    <div class="duh-m-card">
+      <a href="tel:{PHONE_TEL}">{hi("phone")}{PHONE_DISPLAY}</a>
+      <a href="mailto:{EMAIL}">{hi("mail")}{EMAIL}</a>
+      <a href="{REVIEWS_URL}"{ext}>{hi("star")}Read our Google Reviews</a>
+    </div>
+    <div class="duh-m-social">{social("m")}</div>
+  </div>
+</aside>
+<script>
+{(SRC / "header.js").read_text()}</script>
+</div>'''
+    header = """<!--
+DIGITAL UDYAMI · SITE HEADER V2 · ELEMENTOR HTML WIDGET (generated by build.py)
+- Elementor Pro > Templates > Theme Builder > Header > Add New > one HTML widget > paste this file > Display on Entire Site.
+- Set the Elementor container to Full Width with zero padding. Remove the old header (V1) so it does not show twice.
+- The header is sticky by itself (hides on scroll down, returns on scroll up). Do NOT also turn on Elementor's "Sticky" option.
+  To make it non-sticky, change data-duh-sticky="true" to "false" below.
+-->
+"""
+    return header + body
+
+
+def build_header_files():
+    dist, prev = ROOT / "dist", ROOT / "preview"
+    h = build_header()
+    (dist / "header.html").write_text(h + "\n")
+    f = build_footer()
+    for name in PAGES:
+        page = (prev / f"{name}.html").read_text()
+        (prev / f"{name}-full-site.html").write_text(page.replace("<body>", "<body>" + h, 1).replace("</body>", f + "</body>"))
+    (prev / "home-with-footer.html").unlink(missing_ok=True)
+    print(f"built header               {len(h) / 1024:6.1f} KB")
+
+
 if __name__ == "__main__":
     build()
     build_footer_files()
+    build_header_files()
