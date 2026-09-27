@@ -12,6 +12,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/contact.html` | `/contact/` | Contact page |
 | `dist/industries.html` | `/industries/` | **New page** |
 | `dist/free-digital-audit.html` | `/free-digital-audit/` | **New page** (lead magnet) |
+| `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
 
 The SEO title, meta description and focus keyword for each page are in the comment at the top of each file.
 
@@ -32,6 +33,12 @@ The SEO title, meta description and focus keyword for each page are in the comme
 3. Set the SEO title and meta description in your SEO plugin, using the comment at the top of the file.
 4. Create the two new pages with slugs `industries` and `free-digital-audit`, and add them to your menu.
 5. Before launch, replace the Unsplash image URLs with your own WordPress-hosted WebP images.
+
+## Installing the footer
+
+- **Elementor Pro:** Templates → Theme Builder → Footer → Add New. Add one HTML widget, paste `dist/footer.html`, publish, and set the display condition to **Entire Site**.
+- **Free Elementor:** paste `dist/footer.html` into an HTML widget at the bottom of each page, and hide the theme's default footer (for example, Astra → Customize → Footer Builder).
+- Make sure `/privacy-policy/` and `/terms-and-conditions/` exist, or change the `LEGAL` links in `build.py`.
 
 ## Editing content
 
