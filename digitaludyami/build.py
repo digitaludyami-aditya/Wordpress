@@ -725,7 +725,152 @@ PAGES["terms-and-conditions"] = dict(fn=page_terms, url=URL["terms"], title="Ter
 PAGE_CSS["privacy-policy"] = PAGE_CSS["terms-and-conditions"] = (SRC / "pages" / "legal.css").read_text()
 
 
+# ---------------------------------------------------------------- portfolio
+import hashlib  # noqa: E402
+import os  # noqa: E402
+import re  # noqa: E402
+from urllib.parse import quote, urlparse  # noqa: E402
+import portfolio_sites as PS  # noqa: E402
+
+PF_TYPES_ORDER = ["E-commerce", "Corporate", "Blog", "Lead Generation", "Educational"]
+PF_TECH_ORDER = ["WordPress", "Shopify", "React", "Wix", "Webflow", "Squarespace", "Angular", "Vue", "HTML"]
+PF_PALETTE = [("#FF5904", "#FF9A01"), ("#2D3442", "#5B6472"), ("#168558", "#35B081"), ("#2D55B3", "#5B8CE8"),
+              ("#8E3FB8", "#C27BE6"), ("#D63C6E", "#F27FA2"), ("#0F8B8D", "#43C0BF"), ("#B7791F", "#E8B04F")]
+
+
+def pf_slug(text):
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def pf_site_slug(url):
+    host = urlparse(url).netloc.lower()
+    return pf_slug(host[4:] if host.startswith("www.") else host)
+
+
+def pf_load():
+    """Merge sites.py with portfolio/status.json (written by tools/capture.js)."""
+    pdir = ROOT / "portfolio"
+    status_file = pdir / "status.json"
+    status = json.loads(status_file.read_text()) if status_file.exists() else {}
+    verified = bool(status)
+    rows = []
+    for url, name, typ, cat, check in PS.SITES:
+        slug = pf_site_slug(url)
+        st = status.get(slug, {})
+        if verified and not st.get("active"):
+            continue  # inactive, or not checked yet: keep it off the live page
+        tech = PS.TECH_OVERRIDE.get(slug) or st.get("tech") or ""
+        rows.append(dict(slug=slug, url=url, name=name, type=typ, cat=cat, tech=tech, check=check,
+                         shot=st.get("shot", ""), host=urlparse(url).netloc.replace("www.", "")))
+    return rows, verified, status
+
+
+def pf_export_sites():
+    pdir = ROOT / "portfolio"
+    pdir.mkdir(exist_ok=True)
+    data = [dict(slug=pf_site_slug(u), url=u, name=n) for u, n, *_ in PS.SITES]
+    (pdir / "sites.json").write_text(json.dumps(data, indent=2))
+
+
+def pf_order(values, preferred):
+    uniq = sorted(set(v for v in values if v))
+    return [v for v in preferred if v in uniq] + [v for v in uniq if v not in preferred]
+
+
+def page_portfolio():
+    rows, verified, status = pf_load()
+    PAGES["portfolio"]["warn"] = "" if verified else (
+        "\n!! UNVERIFIED BUILD: tools/capture.js has not been run, so this page lists ALL sites (some may be offline),\n"
+        "!! uses live screenshots from WordPress mShots, and has no Technology filter. Run capture.js, then python3 build.py.\n")
+    types = pf_order([r["type"] for r in rows], PF_TYPES_ORDER)
+    techs = pf_order([r["tech"] for r in rows], PF_TECH_ORDER)
+    cats = sorted(set(r["cat"] for r in rows), key=lambda c: (-sum(1 for r in rows if r["cat"] == c), c))
+
+    def chips(group, label, values, key):
+        out = [f'<button type="button" class="du-pf-chip" data-g="{group}" data-v="" data-label="All" aria-pressed="true">All<i>{len(rows)}</i></button>']
+        for v in values:
+            n = sum(1 for r in rows if r[key] == v)
+            out.append(f'<button type="button" class="du-pf-chip" data-g="{group}" data-v="{pf_slug(v)}" data-label="{e(v)}" aria-pressed="false">{e(v)}<i>{n}</i></button>')
+        return "".join(out)
+
+    tech_group = ""
+    if techs:
+        tech_group = (f'<div class="du-pf-group" role="group" aria-label="Filter by technology"><strong>Technology<small>Built with</small></strong>'
+                      f'<div class="du-pf-chips">{chips("tech", "Technology", techs, "tech")}</div></div>')
+
+    cards = []
+    for i, r in enumerate(rows):
+        c1, c2 = PF_PALETTE[int(hashlib.md5(r["slug"].encode()).hexdigest(), 16) % len(PF_PALETTE)]
+        ms = f'https://s.wordpress.com/mshots/v1/{quote(r["url"], safe="")}?w=1200&h=750'
+        if r["shot"]:
+            src, fb, msattr = os.environ.get("PF_SHOTS_BASE", PS.SHOTS_BASE) + r["shot"], ms, ""
+        else:
+            src, fb, msattr = ms, "", " data-ms"
+        fbattr = f' data-fallback="{fb}"' if fb else ""
+        tags = f'<span class="du-pf-tag">{e(r["type"])}</span>' + (f'<span class="du-pf-tag t2">{e(r["tech"])}</span>' if r["tech"] else "")
+        search = " ".join([r["name"], r["host"], r["type"], r["tech"], r["cat"]]).lower()
+        label = f'Visit {r["name"]} website (opens in a new tab)'
+        cards.append(f'''<article class="du-pf-card" data-type="{pf_slug(r["type"])}" data-tech="{pf_slug(r["tech"])}" data-cat="{pf_slug(r["cat"])}" data-q="{e(search)}">
+  <a class="du-pf-shot" href="{r["url"]}" target="_blank" rel="noopener" aria-label="{e(label)}">
+    <span class="du-pf-chrome" aria-hidden="true"><i></i><i></i><i></i><em>{e(r["host"])}</em></span>
+    <span class="du-pf-view" style="--c1:{c1};--c2:{c2}"><span class="du-pf-ph" aria-hidden="true">{e(r["name"])}</span><img src="{src}"{fbattr}{msattr} alt="Home page of {e(r["name"])}" width="1200" height="750" loading="{"eager" if i < 3 else "lazy"}" decoding="async"></span>
+    <span class="du-pf-hover" aria-hidden="true"><span>Visit website {icon("dui-arrow")}</span></span>
+  </a>
+  <div class="du-pf-body"><div class="du-pf-tags">{tags}</div><h3>{e(r["name"])}</h3>
+    <div class="du-pf-meta"><b>{e(r["cat"])}</b><a href="{r["url"]}" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">{e(r["host"])}{icon("dui-arrow")}</a></div></div>
+</article>''')
+
+    n_types, n_cats = len(types), len(set(r["cat"] for r in rows))
+    stats = (f'<div class="du-pf-stats"><div class="du-pf-stat"><b>{len(rows)}</b><span>Live websites</span></div>'
+             f'<div class="du-pf-stat"><b>{n_types}</b><span>Website types</span></div><div class="du-pf-stat"><b>{n_cats}</b><span>Industries</span></div></div>')
+    hero = f'''<section class="du-page-hero"><div class="du-wrap"><div class="du-page-hero-grid">
+  <div data-du-reveal data-du-side="left">
+    <ol class="du-crumbs" aria-label="Breadcrumb"><li><a href="{URL["home"]}">Home</a></li><li aria-current="page">Portfolio</li></ol>
+    <div class="du-pill"><span class="du-dot"></span>Real websites. Real businesses.</div>
+    <h1>Our Portfolio: <span class="du-gradient-text">Websites That Work for Indian and Global Businesses</span></h1>
+    <p class="du-lead">From online stores and corporate sites to blogs and lead-generation pages, here is a look at live websites built and grown by Digital Udyami. Filter by type, technology or industry to find work like yours.</p>
+    <div class="du-btn-row">{btn("Browse Projects", "#portfolio-grid")}{btn("Start Your Project", URL["contact"], "outline")}</div>
+    {stats}
+  </div>
+  <div class="du-pf-hero-collage" aria-hidden="true" data-du-reveal data-du-side="right" data-du-delay="2">{"".join(f'<span style="--c1:{PF_PALETTE[i][0]};--c2:{PF_PALETTE[i][1]};position:relative">{e(rows[i]["name"])}</span>' for i in range(min(5, len(rows))))}</div>
+</div></div></section>'''
+    panel = f'''<div class="du-pf-panel" data-pf-panel>
+  <div class="du-pf-top">
+    <label class="du-pf-search"><span class="du-sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search projects</span>{icon("dui-search")}<input type="search" placeholder="Search projects" autocomplete="off"></label>
+    <button type="button" class="du-pf-toggle" aria-expanded="false">{icon("dui-grid")}Filters <b>0</b></button>
+  </div>
+  <div class="du-pf-groups">
+    <div class="du-pf-group" role="group" aria-label="Filter by type"><strong>Type<small>Kind of website</small></strong><div class="du-pf-chips">{chips("type", "Type", types, "type")}</div></div>
+    {tech_group}
+    <div class="du-pf-group" role="group" aria-label="Filter by category"><strong>Category<small>Industry</small></strong><div class="du-pf-chips">{chips("cat", "Category", cats, "cat")}</div></div>
+  </div>
+</div>
+<div class="du-pf-bar"><p class="du-pf-count" data-pf-count aria-live="polite"></p><div class="du-pf-active" data-pf-active></div></div>
+<div class="du-pf-grid">{"".join(cards)}</div>
+<div class="du-pf-empty" hidden><h3>No projects match these filters</h3><p>Try removing a filter. Or tell us about your project, because we may have worked on something similar that is not listed here.</p>
+  <div class="du-btn-row" style="justify-content:center"><button type="button" class="du-btn du-btn-outline" data-pf-reset>Clear all filters</button>{btn("Talk to Us", URL["contact"])}</div></div>
+<p class="du-pf-note">Screenshots show each website&rsquo;s home page. Sites are updated by their owners, so current designs may differ.</p>'''
+    grid = section(panel, "du-white", "portfolio-grid")
+    cta = cta_section("du-portfolio-form", "Your website could be next", "Want a Website Like These?",
+                      "Tell us what you sell and who you sell to. We will suggest the right type of website, technology and next steps.",
+                      "Start your project", "We usually reply on the same working day.", "I saw the portfolio and want to discuss a website project.")
+    body = hero + grid + audit_banner() + cta + f"<script>\n{(SRC / 'portfolio.js').read_text()}</script>"
+    items = [{"@type": "ListItem", "position": i + 1, "url": r["url"], "name": r["name"]} for i, r in enumerate(rows)]
+    schema = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Digital Udyami Portfolio", "url": URL["portfolio"],
+               "about": {"@id": URL["home"] + "#organization"}},
+              {"@context": "https://schema.org", "@type": "ItemList", "name": "Websites built by Digital Udyami", "numberOfItems": len(rows), "itemListElement": items},
+              breadcrumb_schema("Portfolio", URL["portfolio"])]
+    return body, schema
+
+
+PAGES["portfolio"] = dict(fn=page_portfolio, url=URL["portfolio"], title="Portfolio | Websites, E-commerce Stores & Corporate Sites | Digital Udyami",
+                          desc="Explore live websites built by Digital Udyami. Filter by type (e-commerce, corporate, blog), technology (WordPress, Shopify, React) and industry.",
+                          kw="web development portfolio India")
+PAGE_CSS["portfolio"] = (SRC / "pages" / "portfolio.css").read_text()
+
+
 def build():
+    pf_export_sites()
     dist, prev = ROOT / "dist", ROOT / "preview"
     dist.mkdir(exist_ok=True)
     prev.mkdir(exist_ok=True)
@@ -739,7 +884,7 @@ DIGITAL UDYAMI · ELEMENTOR HTML WIDGET · {name.upper()} PAGE (generated by bui
 - Meta description: {p["desc"]}
 - Primary keyword: {p["kw"]}
 - Template: Elementor Full Width (or Canvas + theme header/footer). Hide the default page title.
-- Paste this entire file into ONE Elementor HTML widget. Do not add another H1 on the page.
+- Paste this entire file into ONE Elementor HTML widget. Do not add another H1 on the page.{p.get("warn", "")}
 -->'''
         ld = "".join(f'<script type="application/ld+json">{json.dumps(s, ensure_ascii=False)}</script>' for s in schema)
         font = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap">'
@@ -774,7 +919,7 @@ def build_footer():
     svc = "".join(f'<li><a href="{x["url"]}">{e(x["name"])}</a></li>' for x in SERVICES)
     company = "".join(f'<li><a href="{u}">{t}</a></li>' for t, u in [
         ("Home", URL["home"]), ("About Us", URL["about"]), ("All Services", URL["services"]),
-        ("Industries We Serve", URL["industries"]), ("Blog", URL["blog"]), ("Digital India Roadmap", URL["roadmap"]),
+        ("Industries We Serve", URL["industries"]), ("Portfolio", URL["portfolio"]), ("Blog", URL["blog"]), ("Digital India Roadmap", URL["roadmap"]),
         ("Free Digital Audit", URL["audit"]), ("Contact Us", URL["contact"])])
     social = "".join(f'<a href="{u}" target="_blank" rel="noopener" aria-label="Digital Udyami on {n}">{fi(i[4:])}</a>' for n, u, i in SOCIALS)
     legal = "".join(f'<a href="{u}">{t}</a>' for t, u in LEGAL)
@@ -863,7 +1008,7 @@ MENU_BLURB = {
 def build_header():
     hi = lambda n: f'<svg aria-hidden="true"><use href="#duh-{n}"></use></svg>'
     used = ["arrow", "chev", "close", "phone", "mail", "whatsapp", "star", "check", "globe", "home", "info", "grid",
-            "book", "flag", "search", "code", "target", "megaphone", "users", "spark", "automation", "file",
+            "book", "flag", "layers", "search", "code", "target", "megaphone", "users", "spark", "automation", "file",
             "facebook-brand", "instagram-brand", "linkedin-brand", "x-brand"]
     icons = footer_icons(used).replace('id="duf-', 'id="duh-')
     msg = wa("Hello Digital Udyami, I would like to discuss my business growth.")
@@ -883,7 +1028,7 @@ def build_header():
                           '<span class="duh-logo-fallback" hidden><span>DU</span>Digital Udyami</span>')
 
     nav = [("Home", URL["home"], "home"), ("About", URL["about"], "info"), None,
-           ("Blog", URL["blog"], "book"), ("Digital India Roadmap", URL["roadmap"], "flag"), ("Contact", URL["contact"], "chat")]
+           ("Portfolio", URL["portfolio"], "layers"), ("Blog", URL["blog"], "book"), ("Digital India Roadmap", URL["roadmap"], "flag"), ("Contact", URL["contact"], "chat")]
     desk = []
     for item in nav:
         if item is None:

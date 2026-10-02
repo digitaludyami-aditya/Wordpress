@@ -28,6 +28,7 @@ URL = {
     "process": f"{SITE}/how-we-work/",
     "blog": "https://digitaludyami.com/blog",
     "roadmap": "https://digitaludyami.com/digitalindiaroadmap",
+    "portfolio": f"{SITE}/portfolio/",
     "privacy": f"{SITE}/privacy-policy/",
     "terms": f"{SITE}/terms-and-conditions/",
 }

@@ -15,6 +15,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/privacy-policy.html` | `/privacy-policy/` | **New page** |
 | `dist/terms-and-conditions.html` | `/terms-and-conditions/` | **New page** |
 | `dist/digital-india-roadmap.html` | `/digitalindiaroadmap` | Road Map 2026 sales landing page (own header/footer: use the **Elementor Canvas** template). Edit `data-spots-left` at the top each time you sign a client. Source: `src/roadmap.html` |
+| `dist/portfolio.html` | `/portfolio/` | Portfolio with Type / Technology / Category filters. **Run the capture tool first**, see *Portfolio* below |
 | `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
 | `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
 
@@ -64,6 +65,17 @@ python3 build.py        # regenerates dist/ and preview/
 ```
 
 Open `preview/*.html` in a browser to check a page locally.
+
+## Portfolio
+
+The site list is `src/portfolio_sites.py`. Type and Category there are best guesses from each site's name (rows marked `True` in the last column need checking). Technology is detected from the live site.
+
+1. `cd tools && npm install playwright && npx playwright install chromium`
+2. `node capture.js`. For each site it opens the home page, **skips sites that are offline, suspended or parked**, saves a screenshot to `portfolio/shots/<name>.jpg`, detects WordPress / Shopify / React / Wix and so on, and prints each site's title so you can check its Category. Re-run one site with `--only hitechpipes-in`.
+3. Upload `portfolio/shots/*.jpg` to WordPress at `wp-content/uploads/portfolio/` (Media Library, or FTP so the filenames stay the same).
+4. `python3 build.py`, then paste `dist/portfolio.html` into an HTML widget on `/portfolio/`.
+
+Without step 2 the page still works, but it lists every site (including any that are offline), takes live screenshots from WordPress mShots, and has no Technology filter. The file starts with a warning comment while that is the case. To preview with local screenshots: `PF_SHOTS_BASE=file:///path/to/shots/ python3 build.py`.
 
 ## Legal pages: before publishing
 
