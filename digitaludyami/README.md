@@ -14,7 +14,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/free-digital-audit.html` | `/free-digital-audit/` | **New page** (lead magnet) |
 | `dist/privacy-policy.html` | `/privacy-policy/` | **New page** |
 | `dist/terms-and-conditions.html` | `/terms-and-conditions/` | **New page** |
-| `dist/digital-india-roadmap.html` | `/digitalindiaroadmap` | Road Map 2026 sales landing page (own header/footer: use the **Elementor Canvas** template). Edit `data-spots-left` at the top each time you sign a client. Source: `src/roadmap.html` |
+| `dist/digital-india-roadmap.html` | `/digitalindiaroadmap/` | Road Map 2026 landing page v5 (₹24,999/month, festive price, price calculator). Own header/footer: use the **Elementor Canvas** template. Set `data-catalogue` at the top to your catalogue PDF link. Source: `src/roadmap.html` |
 | `dist/portfolio.html` | `/portfolio/` | Portfolio with Type / Technology / Category filters. **Run the capture tool first**, see *Portfolio* below |
 | `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
 | `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
