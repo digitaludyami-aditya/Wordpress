@@ -1154,8 +1154,17 @@ def build_blog_post():
     print(f"built blog-single-post       {len(w) / 1024:6.1f} KB")
 
 
+def build_blog():
+    """Blog listing page (/blog/): one HTML widget; posts load from the WordPress REST API."""
+    w = (SRC / "blog.html").read_text()
+    (ROOT / "dist" / "blog.html").write_text(w)
+    tpl = (SRC / "blog-preview.html").read_text()
+    (ROOT / "preview" / "blog.html").write_text(tpl.replace("{{WIDGET}}", w))
+    print(f"built blog                   {len(w) / 1024:6.1f} KB")
+
 if __name__ == "__main__":
     build()
+    build_blog()
     build_blog_post()
     build_footer_files()
     build_header_files()

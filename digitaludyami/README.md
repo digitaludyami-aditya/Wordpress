@@ -16,6 +16,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/terms-and-conditions.html` | `/terms-and-conditions/` | **New page** |
 | `dist/digital-india-roadmap.html` | `/digitalindiaroadmap/` | Road Map 2026 landing page v5 (₹24,999/month, festive price, price calculator). Own header/footer: use the **Elementor Canvas** template. Set `data-catalogue` at the top to your catalogue PDF link. Source: `src/roadmap.html` |
 | `dist/portfolio.html` | `/portfolio/` | Portfolio with Type / Technology / Category filters. **Run the capture tool first**, see *Portfolio* below |
+| `dist/blog.html` | `/blog/` | **Blog listing**: see *Installing the blog listing page* below. Source: `src/blog.html` |
 | `dist/blog-single-post.html` | Every blog post | **Single post template**: see *Installing the blog post template* below. Source: `src/blog-post.html` |
 | `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
 | `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
@@ -46,6 +47,13 @@ The SEO title, meta description and focus keyword for each page are in the comme
 - Set the header container to **Full Width** with **0 padding**. Do **not** turn on Elementor's Sticky option, because the header is already sticky. To make it non-sticky, change `data-duh-sticky="true"` to `"false"`.
 - Links: Home, About, Services (mega menu), Blog (`/blog`), Digital India Roadmap (`/digitalindiaroadmap`), Let's Talk (`/contact`).
 - `preview/*-full-site.html` shows each page with the header and footer together.
+
+## Installing the blog listing page
+
+1. **Settings → Reading → "Posts page"**: set it to **— Select —** and save. Otherwise WordPress shows its own post list on `/blog/`, and Elementor can't edit that page.
+2. Edit the **Blog** page (slug `blog`) with Elementor. Use the **Elementor Full Width** template, hide the page title, add one HTML widget and paste `dist/blog.html`.
+
+Posts load live from WordPress (newest first): the latest post shown large, then 9 cards with a "Load more" button. There's search, topic buttons built from your categories (empty ones and "Uncategorized" hidden), and a Road Map card after the 6th card. Filtered views have shareable links, for example `/blog/?topic=seo` or `/blog/?q=google+reviews`. Posts without a featured image get an orange placeholder with their category name. Preview: `preview/blog.html` (uses sample posts).
 
 ## Installing the blog post template
 
