@@ -16,6 +16,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/terms-and-conditions.html` | `/terms-and-conditions/` | **New page** |
 | `dist/digital-india-roadmap.html` | `/digitalindiaroadmap/` | Road Map 2026 landing page v5 (₹24,999/month, festive price, price calculator). Own header/footer: use the **Elementor Canvas** template. Set `data-catalogue` at the top to your catalogue PDF link. Source: `src/roadmap.html` |
 | `dist/portfolio.html` | `/portfolio/` | Portfolio with Type / Technology / Category filters. **Run the capture tool first**, see *Portfolio* below |
+| `dist/blog-single-post.html` | Every blog post | **Single post template**: see *Installing the blog post template* below. Source: `src/blog-post.html` |
 | `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
 | `dist/footer.html` | Every page | **Site footer**: see *Installing the footer* below |
 
@@ -45,6 +46,18 @@ The SEO title, meta description and focus keyword for each page are in the comme
 - Set the header container to **Full Width** with **0 padding**. Do **not** turn on Elementor's Sticky option, because the header is already sticky. To make it non-sticky, change `data-duh-sticky="true"` to `"false"`.
 - Links: Home, About, Services (mega menu), Blog (`/blog`), Digital India Roadmap (`/digitalindiaroadmap`), Let's Talk (`/contact`).
 - `preview/*-full-site.html` shows each page with the header and footer together.
+
+## Installing the blog post template
+
+Elementor Pro → Templates → Theme Builder → **Single Post** → Add New (no preset). In one **Full Width** container with 0 padding, add these widgets top to bottom:
+
+1. **HTML** widget: paste `dist/blog-single-post.html`
+2. **Post Title** (HTML tag H1)
+3. **Featured Image**
+4. **Post Content**
+5. **Post Comments** (optional)
+
+Publish with the condition **Posts → All**. The design moves widgets 2–5 into its layout automatically, so leave their styling at the defaults. The article text stays normal WordPress HTML, which is good for SEO. Author, category, tags and "Keep reading" come from the WordPress REST API; if the REST API is blocked, those parts hide quietly. You get a table of contents (built from H2/H3 when a post has 2+ H2s), a reading progress bar, share buttons, a mid-article CTA (posts with 3+ H2s), an author box, and a Road Map sidebar card. Change the WhatsApp number and links in the `data-*` attributes on the first `<div>`. Preview: `preview/blog-single-post.html`.
 
 ## Installing the footer
 

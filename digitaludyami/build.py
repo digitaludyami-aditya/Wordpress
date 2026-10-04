@@ -1145,8 +1145,18 @@ def build_roadmap():
     print(f"built digital-india-roadmap  {len(w) / 1024:6.1f} KB")
 
 
+def build_blog_post():
+    """Single blog post design: one HTML widget for the Elementor Theme Builder Single Post template."""
+    w = (SRC / "blog-post.html").read_text()
+    (ROOT / "dist" / "blog-single-post.html").write_text(w)
+    tpl = (SRC / "blog-post-preview.html").read_text()
+    (ROOT / "preview" / "blog-single-post.html").write_text(tpl.replace("{{WIDGET}}", w))
+    print(f"built blog-single-post       {len(w) / 1024:6.1f} KB")
+
+
 if __name__ == "__main__":
     build()
+    build_blog_post()
     build_footer_files()
     build_header_files()
     build_roadmap()
