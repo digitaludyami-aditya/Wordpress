@@ -1162,6 +1162,17 @@ def build_blog():
     (ROOT / "preview" / "blog.html").write_text(tpl.replace("{{WIDGET}}", w))
     print(f"built blog                   {len(w) / 1024:6.1f} KB")
 
+def build_meta_ads():
+    """Meta Ads Management service page (Problem > Pain > Proof > Promise): one HTML widget."""
+    w = (SRC / "meta-ads.html").read_text()
+    (ROOT / "dist" / "meta-ads-management.html").write_text(w)
+    head = ('<!doctype html><html lang="en-IN"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<title>Meta Ads Management Agency in India | Digital Udyami</title></head><body style="margin:0">')
+    page = head + (ROOT / "dist" / "header.html").read_text() + w + (ROOT / "dist" / "footer.html").read_text() + "</body></html>"
+    (ROOT / "preview" / "meta-ads-management.html").write_text(page)
+    print(f"built meta-ads-management    {len(w) / 1024:6.1f} KB")
+
 if __name__ == "__main__":
     build()
     build_blog()
@@ -1169,3 +1180,4 @@ if __name__ == "__main__":
     build_footer_files()
     build_header_files()
     build_roadmap()
+    build_meta_ads()
