@@ -16,7 +16,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 | `dist/terms-and-conditions.html` | `/terms-and-conditions/` | **New page** |
 | `dist/digital-india-roadmap.html` | `/digitalindiaroadmap/` | Road Map 2026 landing page v5 (₹24,999/month, festive price, price calculator). Own header/footer: use the **Elementor Canvas** template. Set `data-catalogue` at the top to your catalogue PDF link. Source: `src/roadmap.html` |
 | `dist/portfolio.html` | `/portfolio/` | Portfolio with Type / Technology / Category filters. **Run the capture tool first**, see *Portfolio* below |
-| `dist/meta-ads-management.html` | `/services/meta-ads-management/` | Meta Ads service page: simple, fast and phone-first (~41 KB, one lazy-loaded photo, no animation). Repeats the "Meta ads can grow your enquiries" message in every section. No fee shown (quote after the free audit). Elementor Full Width, hide the page title. Add real client results in the `data-cases` block (hidden while empty). Source: `src/meta-ads.html` |
+| `dist/meta-ads-management.html` | `/services/meta-ads-management/` | Meta Ads service page in a performance-marketing landing-page layout (dark hero with audit form that opens WhatsApp, client strip, budget-leak funnel with 4 "Our fix" cards, 5-step campaign workflow, ad types grid, outcomes band, trust banner, final CTA card, FAQ). ~38 KB, no photos, no animation, no fee shown. Elementor Full Width, hide the page title. Add real client results in the `data-cases` block (hidden while empty). Source: `src/meta-ads.html` |
 | `dist/blog.html` | `/blog/` | **Blog listing**: see *Installing the blog listing page* below. Source: `src/blog.html` |
 | `dist/blog-single-post.html` | Every blog post | **Single post template**: see *Installing the blog post template* below. Source: `src/blog-post.html` |
 | `dist/header.html` | Every page | **Site header V2**: see *Installing the header* below |
@@ -109,4 +109,4 @@ A few statements are reasonable defaults, not facts taken from your site. Check 
 - "We usually reply on the same working day", "Monday to Saturday", and "audit within three to five working days"
 - The tools list in the platforms marquee (Semrush, Ahrefs, HubSpot, Zoho, etc.)
 - The Launch / Grow / Scale plan contents (all shown as "Custom quote", no prices)
-- Meta Ads page: the 30-day launch plan (Week 1–4), "Google certified SEO and Meta Ads specialists" (copied from the Road Map page), and that partner access is how you work on client ad accounts
+- Meta Ads page: the client names in the "Businesses we’ve worked with" strip (taken from the portfolio list; remove any you'd rather not show), the 5-step campaign workflow, "Google certified SEO and Meta Ads specialists" (copied from the Road Map page), and that partner access is how you work on client ad accounts
