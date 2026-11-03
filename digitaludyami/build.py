@@ -1162,16 +1162,22 @@ def build_blog():
     (ROOT / "preview" / "blog.html").write_text(tpl.replace("{{WIDGET}}", w))
     print(f"built blog                   {len(w) / 1024:6.1f} KB")
 
-def build_meta_ads():
-    """Meta Ads Management service page (Problem > Pain > Proof > Promise): one HTML widget."""
-    w = (SRC / "meta-ads.html").read_text()
-    (ROOT / "dist" / "meta-ads-management.html").write_text(w)
+def build_service_pages():
+    """8 service landing pages, one Elementor HTML widget each (src/service_pages.py)."""
+    import importlib
+    sp = importlib.import_module("service_pages")
     head = ('<!doctype html><html lang="en-IN"><head><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<title>Meta Ads Management Agency in India | Digital Udyami</title></head><body style="margin:0">')
-    page = head + (ROOT / "dist" / "header.html").read_text() + w + (ROOT / "dist" / "footer.html").read_text() + "</body></html>"
-    (ROOT / "preview" / "meta-ads-management.html").write_text(page)
-    print(f"built meta-ads-management    {len(w) / 1024:6.1f} KB")
+            '<meta name="viewport" content="width=device-width, initial-scale=1"><title>{}</title></head><body style="margin:0">')
+    header = (ROOT / "dist" / "header.html").read_text()
+    footer = (ROOT / "dist" / "footer.html").read_text()
+    for d in ("dist/services", "preview/services"):
+        (ROOT / d).mkdir(parents=True, exist_ok=True)
+    for p in sp.PAGES:
+        w = sp.render(p)
+        (ROOT / "dist" / "services" / f"{p['slug']}.html").write_text(w)
+        (ROOT / "preview" / "services" / f"{p['slug']}.html").write_text(
+            head.format(p["seo_title"]) + header + w + footer + "</body></html>")
+        print(f"built services/{p['slug']:<24} {len(w) / 1024:6.1f} KB")
 
 if __name__ == "__main__":
     build()
@@ -1180,4 +1186,4 @@ if __name__ == "__main__":
     build_footer_files()
     build_header_files()
     build_roadmap()
-    build_meta_ads()
+    build_service_pages()
