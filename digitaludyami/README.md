@@ -6,7 +6,7 @@ Self-contained, mobile-first page designs for **www.digitaludyami.com**. Each fi
 
 | File | WordPress page URL | Status |
 |---|---|---|
-| `dist/home.html` | `/` | Replaces Home Page V13 |
+| `dist/home.html` | `/` | Home page: hero slider, About us, services, AI, client testimonials carousel (add real reviews to `TESTIMONIALS` in `src/data.py`; hidden while empty, the Google Reviews call to action always shows), industries, platforms, plans, audit banner, FAQ, enquiry form. Unused CSS and icons are stripped for speed (`src/slim.py`). |
 | `dist/services.html` | `/services/` | Services hub (all 8 services) |
 | `dist/about.html` | `/about/` | About page |
 | `dist/contact.html` | `/contact/` | Contact page |

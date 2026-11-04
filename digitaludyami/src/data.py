@@ -329,3 +329,10 @@ FAQ_INDUSTRIES = [
     ("Do you work with businesses outside metro cities?", "Yes. Many of the businesses we support serve tier 2 and tier 3 cities, where local SEO, WhatsApp-led enquiry journeys and regional content work particularly well."),
     ("Can you handle regulated industries like healthcare or finance?", "Yes, with care. We follow platform advertising policies and avoid misleading claims, and we recommend your compliance team reviews sensitive content before it goes live."),
 ]
+
+# Home page testimonials carousel. Add REAL reviews only, copied from your Google reviews
+# (with the client's permission). While this list is empty, the section shows the
+# "Read our Google reviews" call to action instead of the carousel.
+# Each item: dict(name="Client name", role="Business · City", text="What they said", stars=5)
+TESTIMONIALS = [
+]

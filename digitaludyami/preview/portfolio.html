@@ -1265,6 +1265,35 @@ html,body{overflow-x:clip}
     window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(check)}},{passive:true});
     check();
   }
+
+  /* ---------- Testimonials carousel (real reviews from #du-reviews) ---------- */
+  var tc=$('[data-du-tcar]'),rv=document.getElementById('du-reviews');
+  if(tc&&rv){
+    var tlist=[];try{tlist=JSON.parse(rv.textContent)||[]}catch(e){}
+    if(!tlist.length){tc.hidden=true}
+    else{
+      var track=$('.du-tcar-track',tc),dotsBox=$('.du-tcar-dots',tc),star='<svg aria-hidden="true"><use href="#dui-star"></use></svg>';
+      var tesc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+      track.innerHTML=tlist.map(function(r,i){var n=Math.max(1,Math.min(5,r.stars||5)),nm=r.name||'';
+        return '<article class="du-tcard" role="group" aria-roledescription="testimonial" aria-label="'+(i+1)+' of '+tlist.length+'"><span class="du-stars" role="img" aria-label="'+n+' out of 5 stars">'+new Array(n+1).join(star)+'</span><q>'+tesc(r.text)+'</q><div class="du-tperson"><i aria-hidden="true">'+tesc(nm.trim().charAt(0).toUpperCase())+'</i><div><strong>'+tesc(nm)+'</strong><span>'+tesc(r.role)+'</span></div></div></article>'}).join('');
+      var cards=$$('.du-tcard',tc),tcur=0,ttimer=null;
+      var perView=function(){return Math.max(1,Math.round(track.clientWidth/(cards[0].offsetWidth||1)))};
+      var pages=function(){return Math.max(1,cards.length-perView()+1)};
+      var tmark=function(){$$('button',dotsBox).forEach(function(b,k){b.setAttribute('aria-current',k===tcur?'true':'false')})};
+      var tgo=function(i){var n=pages();tcur=(i+n)%n;track.scrollTo({left:cards[tcur].offsetLeft-cards[0].offsetLeft,behavior:reduced?'auto':'smooth'});tmark()};
+      var tstop=function(){clearInterval(ttimer);ttimer=null};
+      var tstart=function(){tstop();if(reduced||pages()<2)return;ttimer=setInterval(function(){if(!document.hidden)tgo(tcur+1)},5500)};
+      var drawDots=function(){var n=pages();dotsBox.innerHTML='';for(var k=0;k<n;k++){(function(k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Go to testimonial '+(k+1));b.addEventListener('click',function(){tgo(k);tstart()});dotsBox.appendChild(b)})(k)}tmark();$('.du-tcar-ui',tc).hidden=n<2};
+      $('.du-tcar-prev',tc).addEventListener('click',function(){tgo(tcur-1);tstart()});
+      $('.du-tcar-next',tc).addEventListener('click',function(){tgo(tcur+1);tstart()});
+      tc.addEventListener('mouseenter',tstop);tc.addEventListener('mouseleave',tstart);
+      track.addEventListener('touchstart',tstop,{passive:true});
+      var st=null;track.addEventListener('scroll',function(){clearTimeout(st);st=setTimeout(function(){var x=track.scrollLeft,best=0,bd=1e9;cards.forEach(function(c,k){var d=Math.abs(c.offsetLeft-cards[0].offsetLeft-x);if(d<bd){bd=d;best=k}});tcur=Math.min(best,pages()-1);tmark()},120)},{passive:true});
+      track.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();tgo(tcur+1);tstart()}else if(e.key==='ArrowLeft'){e.preventDefault();tgo(tcur-1);tstart()}});
+      var rt=null;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){drawDots();tgo(Math.min(tcur,pages()-1))},200)});
+      drawDots();tstart();
+    }
+  }
 })();
 /* ---------- Legal pages: table of contents scrollspy + print ---------- */
 (function(){

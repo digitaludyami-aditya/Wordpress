@@ -9,6 +9,7 @@ Writes:
 """
 import html
 import json
+import re
 import pathlib
 import sys
 
@@ -312,23 +313,23 @@ def page_home():
     slides = [
         dict(key="team", tag="h1", label="Growth", eyebrow="Digital marketing agency · PAN India",
              title='Digital Marketing Services in India That Help You Get <span class="du-gradient-text">Found, Chosen and Remembered</span>',
-             copy="Websites, SEO, Google Ads, Meta Ads, social media, branding and AI automation, connected into one clear growth system for your business.",
+             copy="Websites, SEO, ads, social media, branding and AI automation, connected into one growth system.",
              cta=("Explore Our Services", "#services"), card=("One connected growth system", ["Strategy led by people", "Execution assisted by AI", "Reporting you can understand"])),
         dict(key="analytics", tag="h2", label="SEO", eyebrow="SEO · AEO · GEO",
              title='Get Found on Google <span class="du-gradient-text">When Customers Are Searching</span>',
-             copy="Rank for the searches that bring buyers, show up on Google Maps and get cited in AI answers from ChatGPT, Gemini and Google AI Overviews.",
+             copy="Rank for searches that bring buyers, show up on Google Maps and in AI answers.",
              cta=("Quick Look: SEO", "quick:seo-services"), card=("Search visibility", ["Technical SEO fixes", "Local SEO and Maps", "Content that answers buyers"])),
         dict(key="ads", tag="h2", label="Ads", eyebrow="Google Ads · Meta Ads",
              title='Turn Ad Spend Into <span class="du-gradient-text">Qualified Enquiries</span>',
-             copy="High-intent Google campaigns and scroll-stopping Meta creatives, with tracking that shows exactly which rupee produced which lead.",
+             copy="Google and Meta campaigns with tracking that shows which rupee brought which lead.",
              cta=("Quick Look: Google Ads", "quick:google-ads-management"), card=("Performance marketing", ["Conversion tracking first", "Creative testing", "Lead quality over volume"])),
         dict(key="laptop", tag="h2", label="Web & Brand", eyebrow="Websites · Branding",
              title='Websites and Brands <span class="du-gradient-text">Built to Convert</span>',
-             copy="Fast, mobile-first websites and a brand identity that make your business easier to trust, easier to remember and easier to contact.",
+             copy="Fast, mobile-first websites and a brand people trust, remember and contact.",
              cta=("Quick Look: Websites", "quick:website-development"), card=("Digital foundation", ["Mobile-first design", "Speed and SEO built in", "WhatsApp and form leads"])),
         dict(key="ai", tag="h2", label="AI", eyebrow="AI automation · AI content",
              title='AI Automation That <span class="du-gradient-text">Gives Your Team Time Back</span>',
-             copy="WhatsApp chatbots, instant lead follow-up, CRM updates and AI-assisted content, always with a human in control.",
+             copy="WhatsApp chatbots, instant lead follow-up and AI content, always with a human in control.",
              cta=("Quick Look: AI Automation", "quick:ai-automation"), card=("Practical AI", ["Reply to leads in seconds", "Automated follow-up", "Human oversight"])),
     ]
     slide_html, dot_html = [], []
@@ -372,83 +373,75 @@ def page_home():
   <div class="du-trust-item">{icon("dui-shield")}<span><strong>No fake guarantees</strong>Clear scope and reporting</span></div>
 </div></div></div>'''
 
-    pain = section(head("The real growth problem", "Growth Slows When Your Digital Channels Work Separately",
-                        "A beautiful website cannot fix weak traffic. Advertising cannot fix a confusing landing page. Content cannot build trust when the brand message changes every week. The strongest opportunity is often in connecting the system.") +
-                   '<div class="du-pain-grid">' + "".join(
-        f'<article class="du-pain-card du-card" data-du-reveal data-du-delay="{i}"><span class="du-pain-number">0{i + 1}</span><h3>{t}</h3><p>{d}</p></article>'
-        for i, (t, d) in enumerate([
-            ("Website achhi ho par enquiry na aaye toh growth ruk jaati hai", "Visitors need clear positioning, fast mobile performance and an obvious next step before design can support revenue."),
-            ("Ads chal rahe ho par tracking weak ho toh budget waste hota hai", "Clicks feel productive, but the business needs to know which campaign, keyword and page created a useful lead."),
-            ("Content post ho par trust build na ho toh attention sales nahi banti", "Consistency matters, but relevance, proof and a recognisable point of view are what move customers closer to action."),
-        ])) + "</div>")
+    about = section(f'''<div class="du-about">
+  <div class="du-about-pic" data-du-reveal data-du-side="left">{img("team", "Digital Udyami team planning a client growth strategy", "(max-width:760px) 100vw, 45vw")}<span class="du-photo-label">Strategy led by people · Execution assisted by AI</span></div>
+  <div data-du-reveal data-du-side="right">
+    <span class="du-eyebrow">About us</span>
+    <h2>Your Growth Partner, <span class="du-gradient-text">Not Just Another Agency</span></h2>
+    <p class="du-lead" style="margin-top:14px">Digital Udyami helps Indian businesses get found, trusted and contacted. We connect your website, SEO, ads, social media, branding and AI automation into one clear system, so every rupee works harder.</p>
+    <ul class="du-about-points">{"".join(f'<li>{icon(ic)}<span><strong>{t}</strong>{d}</span></li>' for ic, t, d in [
+        ("dui-users", "Human-led strategy", "Real people plan and review your growth."),
+        ("dui-spark", "AI-assisted execution", "Faster work, without losing quality."),
+        ("dui-shield", "Honest reporting", "No fake guarantees, clear numbers."),
+        ("dui-globe", "PAN India", "Working with businesses across India."),
+    ])}</ul>
+    <div class="du-btn-row">{btn("About Digital Udyami", URL["about"])}{btn("Get a Free Audit", URL["audit"], "outline")}</div>
+  </div>
+</div>
+<div class="du-flowbar" data-du-reveal><strong>We connect it all into one growth system</strong><div class="du-flow"><span>Website</span><i>+</i><span>Ads</span><i>+</i><span>Content</span><i>+</i><span>AI</span><i>→</i><span class="is-end">Qualified Leads</span></div></div>''', "du-white", "about")
 
-    services = section(head("Connected capabilities", "Digital Marketing Services That Work Together",
-                            "Start with the biggest bottleneck, then connect the services that improve the complete customer journey. Tap <strong>Quick Look</strong> on any service to see what is included.", True)
+    services = section(head("Our services", "Digital Marketing Services That Work Together",
+                            "Start with your biggest bottleneck, then add what helps next. Tap <strong>Quick Look</strong> to see what is included.", True)
                        + service_grid(CORE_SLUGS)
                        + f'<div class="du-btn-row" style="justify-content:center;margin-top:34px">{btn("View All Services", URL["services"], "dark")}</div>',
                        "du-soft-bg", "services")
 
     ai = section(f'''<div class="du-ai-grid">
-  <div data-du-reveal data-du-side="left"><span class="du-eyebrow">AI-powered growth</span><h2>AI Solutions That Save Time Without Losing the Human Touch</h2>
-  <p class="du-lead" style="margin-top:16px">Most businesses lose leads because replies are slow and follow-up is manual. We use AI where it removes busywork, and keep people in charge of strategy, quality and customer relationships.</p>
-  <div class="du-chips" style="margin-top:22px">{"".join(f'<span class="du-chip">{icon("dui-check")}{t}</span>' for t in ["WhatsApp chatbots", "Lead qualification", "CRM automation", "AI content systems", "Automated reports"])}</div></div>
+  <div data-du-reveal data-du-side="left"><span class="du-eyebrow">AI-powered growth</span><h2>AI That Saves Time Without Losing the Human Touch</h2>
+  <p class="du-lead" style="margin-top:16px">Slow replies and manual follow-up lose leads. We use AI to remove busywork, while people stay in charge of strategy and quality.</p>
+  <div class="du-chips" style="margin-top:22px">{"".join(f'<span class="du-chip">{icon("dui-check")}{t}</span>' for t in ["WhatsApp chatbots", "Lead qualification", "CRM automation", "AI content", "Automated reports"])}</div></div>
   {service_grid(AI_SLUGS, True)}
 </div>''', "du-dark du-ai-section")
 
-    paths = section(head("Fewer choices, clearer action", "Choose the Growth Outcome You Need First",
-                         "You do not need to buy every service at once. Choose the result that matters now, then build the next layer when the foundation is ready.") +
-                    '<div class="du-path-grid">' + "".join(
-        f'<article class="du-path-card du-card" data-du-reveal data-du-delay="{i}"><div class="du-icon">{icon(ic)}</div><h3>{t}</h3><p>{d}</p><a class="du-link" href="{u}">{l}{icon("dui-arrow")}</a></article>'
-        for i, (ic, t, d, u, l) in enumerate([
-            ("dui-search", "Visibility chahiye toh search aur content se shuru karein", "Ideal when customers cannot find your business or your website does not answer the questions they search.", SERVICE_BY_SLUG["seo-services"]["url"], "Build organic visibility"),
-            ("dui-target", "Leads chahiye toh ads aur landing page ko connect karein", "Ideal when the business needs faster demand capture and a measurable path from click to enquiry.", SERVICE_BY_SLUG["google-ads-management"]["url"], "Build a lead system"),
-            ("dui-automation", "Efficiency chahiye toh AI se repetitive work kam karein", "Ideal when leads, follow-up, support, reporting or content workflows consume too much manual time.", SERVICE_BY_SLUG["ai-automation"]["url"], "Explore practical automation"),
-        ])) + "</div>")
+    reviews = json.dumps(TESTIMONIALS, ensure_ascii=False).replace("</", "<\\/")
+    testimonials = section(head("Client stories", "What Our Clients Say",
+                                "Real feedback from businesses we work with. Read every review on Google.", True) + f'''<div class="du-tcar" data-du-tcar>
+  <div class="du-tcar-track" tabindex="0" aria-label="Client testimonials"></div>
+  <div class="du-tcar-ui"><button type="button" class="du-tcar-prev" aria-label="Previous testimonial">{icon("dui-chev")}</button><div class="du-tcar-dots"></div><button type="button" class="du-tcar-next" aria-label="Next testimonial">{icon("dui-chev")}</button></div>
+</div>
+<script type="application/json" id="du-reviews">{reviews}</script>
+<div class="du-greview" data-du-reveal>
+  <span class="du-greview-g" aria-hidden="true">G</span>
+  <div><span class="du-stars">{icon("dui-star") * 5}</span><strong>See what our clients say on Google</strong><span>Honest reviews from real businesses.</span></div>
+  <div class="du-btn-row">{btn("Read Our Google Reviews", REVIEWS_URL, "primary", "dui-star", True)}{btn("Talk on WhatsApp", wa("Hello Digital Udyami, I saw your reviews and want to discuss my business growth."), "wa", "dui-whatsapp", True)}</div>
+</div>''', "du-soft-bg", "testimonials")
 
-    proc = section(head("How we work", "A Simple 5-Step Process From First Call to Growth",
-                        "Clear steps, clear owners and clear review points, so you always know what is happening and why.", True)
-                   + process()
-                   + f'<div class="du-btn-row" style="justify-content:center;margin-top:34px">{btn("Start With Step 1: Free Audit", URL["audit"])}</div>', "du-soft-bg")
-
-    why = section(head("Trust before the sale", "Why Businesses Choose Digital Udyami",
-                       "The objective is not to make digital marketing sound complicated. It is to make the business decision clearer and the execution easier to understand.", True) +
-                  '<div class="du-why-grid">' + "".join(
-        f'<article class="du-why-card" data-du-reveal data-du-delay="{i}"><div class="du-icon">{icon(ic)}</div><h3>{t}</h3><p>{d}</p></article>'
-        for i, (ic, t, d) in enumerate([
-            ("dui-target", "Business outcome pe focus rahe", "Work is connected to enquiries, sales support, trust, efficiency and customer experience."),
-            ("dui-shield", "Promises realistic aur reporting clear rahe", "No guaranteed ranking or lead claims. Scope, priorities and measurement stay visible."),
-            ("dui-users", "Human judgement ke saath AI use ho", "AI supports research, production and workflows while people remain responsible for strategy and quality."),
-            ("dui-globe", "PAN India delivery simple rahe", "Remote collaboration, clear review points and structured communication support businesses across India."),
-        ])) + f'</div><div class="du-btn-row" style="justify-content:center;margin-top:34px">{btn("About Digital Udyami", URL["about"], "light")}{btn("Read Google Reviews", REVIEWS_URL, "ghost", "dui-star", True)}</div>', "du-dark")
-
-    inds = [("founders", "Startups and MSMEs", "Clear foundations, focused acquisition and practical budgets"),
-            ("design", "D2C and E-commerce", "Store experience, demand capture and repeatable content"),
-            ("office", "Professional Services", "Authority, trust and qualified enquiry journeys"),
-            ("analytics", "B2B and Manufacturing", "Longer sales cycles, lead quality and clear information"),
-            ("ai", "Growth-Stage Teams", "Automation, reporting and connected execution")]
-    industries = section(head("Indian market relevance", "Built for Businesses at Different Growth Stages",
-                              "The same service should not look identical for every company. Priorities change with the sales cycle, customer value, geography, team size and digital maturity.") +
+    inds = [("founders", "Startups and MSMEs", "Clear foundations and practical budgets"),
+            ("design", "D2C and E-commerce", "Store experience and demand capture"),
+            ("office", "Professional Services", "Authority, trust and qualified enquiries"),
+            ("analytics", "B2B and Manufacturing", "Lead quality for longer sales cycles"),
+            ("ai", "Growth-Stage Teams", "Automation and connected execution")]
+    industries = section(head("Industries", "Built for Businesses at Every Growth Stage",
+                              "Priorities change with your sales cycle, customers, city and team size, so every plan does too.") +
                          '<div class="du-industry-grid">' + "".join(
         f'<a class="du-industry-item" href="{URL["industries"]}" data-du-reveal data-du-delay="{i}">{img(k, "", "(max-width:760px) 100vw, 33vw")}<div class="du-industry-copy"><strong>{t}</strong><span>{d}</span></div></a>'
         for i, (k, t, d) in enumerate(inds)) +
         f'</div><div class="du-btn-row" style="justify-content:center;margin-top:30px">{btn("See Industries We Serve", URL["industries"], "outline")}</div>')
 
     pricing = section(head("Engagement models", "Flexible Plans for Every Growth Stage",
-                           "Every business is different, so every plan is scoped after a free discovery call. These are the three most common starting points.", True) + plans(), "du-white")
+                           "Every plan is scoped after a free discovery call. These are the most common starting points.", True) + plans(), "du-white")
 
-    faqs = section(head("Decision support", "Questions Businesses Ask Before Starting",
-                        "Clear answers reduce uncertainty and help you choose a sensible first step.", True) + faq(FAQ_HOME), "du-soft-bg")
-
-    contact = section(head("Talk to us", "Reach Digital Udyami Your Way", "", True) + contact_strip() + socials_row(), "du-white")
+    home_faq = [FAQ_HOME[i] for i in (0, 1, 2, 5, 6, 7)]
+    faqs = section(head("FAQ", "Questions Businesses Ask Before Starting", "", True) + faq(home_faq), "du-white")
 
     cta = cta_section("du-home-form", "Start with the right next step", "Tell Us What Is Slowing Your Growth",
-                      "Share four quick details. The form prepares a WhatsApp message so you can review it before sending.",
-                      "Aapki priority samajhkar right starting point choose karein", "Short form. Clear conversation. No unnecessary questions.",
+                      "Share four quick details. The form prepares a WhatsApp message for you to send.",
+                      "Aapki priority samajhkar right starting point choose karein", "Short form. Clear conversation.",
                       "I want to discuss a digital growth requirement.")
 
-    body = hero + pain + services + ai + paths + proc + why + industries + tools_section("du-soft-bg") + pricing + audit_banner() + faqs + cta + contact
+    body = hero + about + services + ai + testimonials + industries + tools_section("du-white") + pricing + audit_banner() + faqs + cta
     schema = [ORG_SCHEMA, {"@context": "https://schema.org", "@type": "WebSite", "name": "Digital Udyami", "url": URL["home"]},
-              services_schema(), faq_schema(FAQ_HOME)]
+              services_schema(), faq_schema(home_faq)]
     return body, schema
 
 
@@ -888,8 +881,17 @@ DIGITAL UDYAMI · ELEMENTOR HTML WIDGET · {name.upper()} PAGE (generated by bui
 -->'''
         ld = "".join(f'<script type="application/ld+json">{json.dumps(s, ensure_ascii=False)}</script>' for s in schema)
         font = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap">'
-        widget = (f'{header}\n<div id="du-app" class="du-page-{name}">\n{font}\n<style>\n{CORE_CSS}\n{SHARED_PAGE_CSS}\n{PAGE_CSS[name]}</style>\n'
-                  f'{ICONS}\n{body}\n{modal() if needs_modal else ""}\n{floating_actions()}\n<script>\n{CORE_JS}</script>\n{ld}\n</div>\n')
+        css = f"{CORE_CSS}\n{SHARED_PAGE_CSS}\n{PAGE_CSS[name]}"
+        extra = f'{modal() if needs_modal else ""}\n{floating_actions()}'
+        if name == "home":  # smaller, faster home page: only the CSS it uses, minified
+            import slim
+            css = slim.slim(css, body + extra, CORE_JS) + "\n"
+            used = set(re.findall(r'#(dui-[\w-]+)', body + extra + CORE_JS))
+            icons = re.sub(r'<symbol id="(dui-[\w-]+)".*?</symbol>\n?', lambda m: m.group(0) if m.group(1) in used else "", ICONS, flags=re.S)
+        else:
+            icons = ICONS
+        widget = (f'{header}\n<div id="du-app" class="du-page-{name}">\n{font}\n<style>\n{css}</style>\n'
+                  f'{icons}\n{body}\n{extra}\n<script>\n{CORE_JS}</script>\n{ld}\n</div>\n')
         (dist / f"{name}.html").write_text(widget)
         (prev / f"{name}.html").write_text(
             f'<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
